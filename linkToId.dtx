@@ -1,0 +1,51 @@
+% \iffalse meta-comment
+% copyright goes here
+% \fi
+%
+% \iffalse
+%
+%<package>\NeedsTeXFormat{LaTeX2e}[1994/06/01]
+%<package>\ProvidesPackage{linkToId}[2018/04/01 Links to ID services such as ORCID]
+%<*driver>
+\documentclass{ltxdoc}
+\begin{document}
+  \DocInput{linkToId.dtx}
+\end{document}
+%</driver>
+% \fi
+
+% TODO: Read more of clsguide.pdf to find more things to add.
+% TODO: Concerning \NeedsTeXFormat: Find out which format we actually require
+
+% TODO: Should these packages be included here or included by the user? Now, the user can not pass options to these packages.
+\RequirePackage{graphicx}
+\RequirePackage{hyperref}
+
+% TODO: Should we be using \DeclareRobustCommand here instead? Difference to \newcommand is not clear to me.
+
+% TODO: Add an option on whether to prepend the https://orcid.org/ or not.
+% TODO: Recognize the ID also without the https://orcid.org/ and prepend it if necessary.
+\newcommand{\linkToOrcidIdToDisplayString}[1]{#1}
+% TODO: Recognize the ID also without the https://orcid.org/ and prepend it if necessary.
+\newcommand{\linkToOrcidURL}[1]{#1}
+
+% Check that the logo file actually exists
+% Note that full stops are added by the latex processor at the end of the messages.
+\IfFileExists{vector_iD_icon.pdf}{}{\PackageError{linkToId}{File "vector_iD_icon.pdf" missing}{Make sure all files of the package are in the correct path. Maybe you forgot to copy that file?}}
+
+% TODO: The -0.2em adjustment has been determined by trial and error, is there a better way?
+% TODO: Include the PDF file in this source somehow.
+\newcommand{\linkToOrcidLogo}{\raisebox{-0.2em}{\includegraphics[width=1em]{vector_iD_icon}}}
+\newcommand{\linkToOrcidLogoMarginLeft}{\hspace{0.25em}\linkToOrcidLogo}
+\newcommand{\linkToOrcidLogoMarginRight}{\hspace{0.25em}\linkToOrcidLogo}
+\newcommand{\linkToOrcidLogoMarginBoth}{\hspace{0.25em}\linkToOrcidLogo\hspace{0.25em}}
+
+% TODO: Add an option to have links only on the symbol and not also on the name.
+% TODO: Add an option to remove the margin on the right hand side.
+\newcommand{\linkToOrcidNameSymbol}[2]{\href{\linkToOrcidURL{#2}}{\mbox{#1\linkToOrcidLogoMarginBoth}}}
+% TODO: Add an option to remove the margin on the left hand side.
+\newcommand{\linkToOrcidSymbolId}[1]{\href{\linkToOrcidURL{#1}}{\mbox{\linkToOrcidLogoMarginBoth\linkToOrcidIdToDisplayString{#1}}}}
+% TODO: Add an option to have links only on the symbol and the id and not also on the name.
+\newcommand{\linkToOrcidNameSymbolId}[3]{\href{\linkToOrcidURL{#2}}{\mbox{#1\linkToOrcidLogoMarginBoth\linkToOrcidIdToDisplayString{#2}}}}
+
+\endinput
