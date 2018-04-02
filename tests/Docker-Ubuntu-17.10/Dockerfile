@@ -15,6 +15,7 @@ RUN mkdir -pv /src && cd /src && git clone https://github.com/mghansen256/linkTo
 
 # re-create the style file and the documentation
 # TODO: use a different output directory?
+# TODO: put halt-on-error options here
 RUN cd /src/linkToId && rm -f linkToId.sty && latex linkToId.ins && pdflatex linkToId.dtx
 
 CMD bash
