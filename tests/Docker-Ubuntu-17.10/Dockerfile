@@ -1,3 +1,5 @@
+# Dockerfile for testing linkToId on Ubuntu 17.10
+
 FROM ubuntu:17.10
 
 # configure apt to not install reccomendations
@@ -15,7 +17,9 @@ RUN mkdir -pv /src && cd /src && git clone https://github.com/mghansen256/linkTo
 
 # re-create the style file and the documentation
 # TODO: use a different output directory?
-# TODO: put halt-on-error options here
-RUN cd /src/linkToId && rm -f linkToId.sty && latex linkToId.ins && pdflatex linkToId.dtx
+RUN cd /src/linkToId \
+ && rm -f linkToId.sty \
+ && latex -interaction=nonstopmode -halt-on-error linkToId.ins \
+ && pdflatex -interaction=nonstopmode -halt-on-error linkToId.dtx
 
 CMD bash
