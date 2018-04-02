@@ -35,10 +35,15 @@
 % TODO: These are not really at the left/right, but there is a margin.
 \fancyfoot[RE,LO]{\textsf{linkToId}~\fileversion, dated~\filedate}
 
-% \EnableCrossrefs
-% \CodelineIndex
+\EnableCrossrefs
+\CodelineIndex
 \RecordChanges
 \GetFileInfo{linkToId.sty}
+\hypersetup{
+  pdftitle    = {The linkToId package},
+  pdfauthor   = {Michael G. Hansen},
+  pdfkeywords = {ORCID}
+}
 
 \begin{document}
    \DocInput{linkToId.dtx}
@@ -53,7 +58,7 @@
 %% Parameter value 0 only outputs a warning. Checksum requires that the command
 %% StopEventually is used somewhere in the document.
 % \fi
-% \CheckSum{61}
+% \CheckSum{0}
 
 % \iffalse
 %% For finding character transmission errors
@@ -86,52 +91,74 @@
 % \StopEventually{\PrintChanges\PrintIndex}
 
 % This document corresponds to \textsf{linkToId}~\fileversion, dated~\filedate.
-% This documentation is currently unfinished. Also, I could not figure out how to get rid of the indexed code lines.
 
 
-
+% \section{Implementation}
 %    \begin{macrocode}
 % TODO: Read more of clsguide.pdf to find more things to add.
 % TODO: Concerning NeedsTeXFormat: Find out which format we actually require
 
-% TODO: Should these packages be included here or included by the user? Now, the user can not pass options to these packages.
+% TODO: Should these packages be included here or included by the user?
+%       Now, the user can not pass options to these packages.
 
 \RequirePackage{ifpdf}
 \RequirePackage{graphicx}
 \RequirePackage{hyperref}
 
-% linkToIdRelativePath is used to tell us about the relative path from the including tex document to this folder.
+%    \end{macrocode}
+% This package can be used in a subdirectory of the folder containing the document.
+% In this case, the relative path to the linkToId.sty file has to be written
+% to the |\linkToIdRelativePath| before the package is included via usepackage.
+% Otherwise, the icon files will not be found:\\
+% |\newcommand{\linkToIdRelativePath}{path-to-subdirectory}|\\
+%    \begin{macrocode}
+% linkToIdRelativePath is used to tell us about the relative path from the
+% including tex document to this folder.
 % TODO: Use the currfile package to find the path. But that package may not be standard. 
-\@ifundefined{linkToIdRelativePath}{
-    \newcommand{\linkToIdRelativePath}{.}
-}{
-}
+\@ifundefined{linkToIdRelativePath}{\newcommand{\linkToIdRelativePath}{.}}{}
+%    \end{macrocode}
 
-% TODO: Add an option on whether to prepend the https://orcid.org/ or not.
-% TODO: Should we be using \DeclareRobustCommand here instead? Difference to \newcommand is not clear to me.
-
-% TODO: Recognize the ID also without the https://orcid.org/ and prepend it if necessary.
-\newcommand{\linkToOrcidIdToDisplayString}[1]{#1}
-% TODO: Recognize the ID also without the https://orcid.org/ and prepend it if necessary.
-\newcommand{\linkToOrcidURL}[1]{#1}
-
+% \subsection{ORCID specifics}
+% \subsubsection{Implementation}
+% First we check for existance of the EPS and PDF versions of the ORCID icons in order
+% to be able to provide useful error messages.
+%    \begin{macrocode}
 % Check that the icon file actually exists
 % Note that full stops are added by the latex processor at the end of the messages.
 \ifpdf
     % When compiling to PDF, we only need the PDF version of the icon.
     \IfFileExists{\linkToIdRelativePath/linkToId-icon-ORCID.pdf}{}{\PackageError{linkToId}{File "\linkToIdRelativePath/linkToId-icon-ORCID.pdf" missing}{Make sure all files of the package are in the correct path. If you are using linkToId.sty in a subdirectory, make sure linkToIdRelativePath is set correctly.}}
 \else
-    % TODO: This case could still be DVI, PostScript or HTML. For now, we are only considering DVI/PostScript which includes the .eps-version.
+    % TODO: This case could still be DVI, PostScript or HTML.
+    %       For now, we are only considering DVI/PostScript
+    %       which includes the .eps-version.
     \IfFileExists{\linkToIdRelativePath/linkToId-icon-ORCID.eps}{}{\PackageError{linkToId}{File "\linkToIdRelativePath/linkToId-icon-ORCID.eps" missing}{Make sure all files of the package are in the correct path. If you are using linkToId.sty in a subdirectory, make sure linkToIdRelativePath is set correctly.}}
 \fi
-
+%    \end{macrocode}
+%
+% Next we set up the icon rendering and the margins as requested by ORCID.
+%
+%    \begin{macrocode}
 % TODO: The -0.2em adjustment has been determined by trial and error, is there a better way?
 % TODO: Include the PDF file in this source somehow.
-\newcommand{\linkToOrcidIcon}{\raisebox{-0.2em}{\includegraphics[width=1em,height=1em]{\linkToIdRelativePath/linkToId-icon-ORCID}}}
+\newcommand{\linkToOrcidIcon}{\raisebox{-0.2em}{\
+        \includegraphics[width=1em,height=1em]{\linkToIdRelativePath/linkToId-icon-ORCID}}\
+    }
 \newcommand{\linkToOrcidIconMarginLeft}{\hspace{0.25em}\linkToOrcidIcon}
 \newcommand{\linkToOrcidIconMarginRight}{\hspace{0.25em}\linkToOrcidIcon}
 \newcommand{\linkToOrcidIconMarginBoth}{\hspace{0.25em}\linkToOrcidIcon\hspace{0.25em}}
 %    \end{macrocode}
+
+%    \begin{macrocode}
+% TODO: Should we be using \DeclareRobustCommand here instead? Difference to \newcommand is not clear to me.
+% TODO: Add an option on whether to prepend the https://orcid.org/ or not.
+% TODO: Recognize the ID also without the https://orcid.org/ and prepend it if necessary.
+\newcommand{\linkToOrcidIdToDisplayString}[1]{#1}
+% TODO: Recognize the ID also without the https://orcid.org/ and prepend it if necessary.
+\newcommand{\linkToOrcidURL}[1]{#1}
+%    \end{macrocode}
+
+% \subsubsection{Usage}
 
 % \begin{macro}{\linkToOrcidNameIcon}
 % Creates a link consisting of a name and an icon.
@@ -156,7 +183,11 @@
 
 %    \begin{macrocode}
 % TODO: Add an option to remove the margin on the left hand side.
-\newcommand{\linkToOrcidIconId}[1]{\href{\linkToOrcidURL{#1}}{\mbox{\linkToOrcidIconMarginBoth\linkToOrcidIdToDisplayString{#1}}}}
+\newcommand{\linkToOrcidIconId}[1]{\
+        \href{\
+            \linkToOrcidURL{#1}}{\mbox{\linkToOrcidIconMarginBoth\linkToOrcidIdToDisplayString{#1}}\
+        }\
+    }
 %    \end{macrocode}
 %\end{macro}
 
