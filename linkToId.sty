@@ -20,7 +20,16 @@
 %% LaTeX version 2005/12/01 or later.
 %% 
 \NeedsTeXFormat{LaTeX2e}[1994/06/01]
-\ProvidesPackage{linkToId}[2018/04/01 Links to ID services such as ORCID]
+\ProvidesPackage{linkToId}[2018/04/01 v0.1 Links to ID services such as ORCID]
+%% TODO: How to properly comment the documentation? Only the iffalse prevents
+%% these comments from being inserted into the document as regular text.
+%% Counts the number of backslashes in the file and compares them to the parameter.
+%% Parameter value 0 only outputs a warning. Checksum requires that the command
+%% StopEventually is used somewhere in the document.
+
+%% For finding character transmission errors
+
+
 
 
 
@@ -51,10 +60,15 @@
 \newcommand{\linkToOrcidIconMarginRight}{\hspace{0.25em}\linkToOrcidIcon}
 \newcommand{\linkToOrcidIconMarginBoth}{\hspace{0.25em}\linkToOrcidIcon\hspace{0.25em}}
 
+
 \newcommand{\linkToOrcidNameIcon}[2]{\href{\linkToOrcidURL{#2}}{\mbox{#1\linkToOrcidIconMarginBoth}}}
 
+
 \newcommand{\linkToOrcidIconId}[1]{\href{\linkToOrcidURL{#1}}{\mbox{\linkToOrcidIconMarginBoth\linkToOrcidIdToDisplayString{#1}}}}
-\newcommand{\linkToOrcidNameIconId}[3]{\href{\linkToOrcidURL{#2}}{\mbox{#1\linkToOrcidIconMarginBoth\linkToOrcidIdToDisplayString{#2}}}}
+
+
+\newcommand{\linkToOrcidNameIconId}[2]{\href{\linkToOrcidURL{#2}}{\mbox{#1\linkToOrcidIconMarginBoth\linkToOrcidIdToDisplayString{#2}}}}
+
 \endinput
 %%
 %% End of file `linkToId.sty'.

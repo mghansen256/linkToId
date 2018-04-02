@@ -13,7 +13,7 @@
 % LaTeX version 2005/12/01 or later.
 %
 %<package>\NeedsTeXFormat{LaTeX2e}[1994/06/01]
-%<package>\ProvidesPackage{linkToId}[2018/04/01 Links to ID services such as ORCID]
+%<package>\ProvidesPackage{linkToId}[2018/04/01 v0.1 Links to ID services such as ORCID]
 %
 % \fi
 %
@@ -21,21 +21,43 @@
 %
 %<*driver>
 \documentclass{ltxdoc}
-\EnableCrossrefs
-\CodelineIndex
+\usepackage{linkToId}
+\usepackage{lastpage}
+\usepackage{fancyhdr}
+
+% TODO: The pagestyle fancy is only applied starting at page 2...
+\pagestyle{fancy}
+\fancyhf{}
+\renewcommand{\headrulewidth}{0pt}
+\fancyhead{}
+\fancyfoot{}
+\fancyfoot[CE,CO]{\thepage\  / \pageref{LastPage}}
+% TODO: These are not really at the left/right, but there is a margin.
+\fancyfoot[RE,LO]{\textsf{linkToId}~\fileversion, dated~\filedate}
+
+% \EnableCrossrefs
+% \CodelineIndex
 \RecordChanges
+\GetFileInfo{linkToId.sty}
+
 \begin{document}
    \DocInput{linkToId.dtx}
 \end{document}
 %</driver>
 % \fi
 %
+% \iffalse
+%% TODO: How to properly comment the documentation? Only the iffalse prevents
+%% these comments from being inserted into the document as regular text.
 %% Counts the number of backslashes in the file and compares them to the parameter.
-%% Parameter value 0 only outputs a warning.
-%% TODO: Checksum does not generate any output and no error message...
-% \CheckSum{1}
+%% Parameter value 0 only outputs a warning. Checksum requires that the command
+%% StopEventually is used somewhere in the document.
+% \fi
+% \CheckSum{61}
 
-% % For finding character transmission errors
+% \iffalse
+%% For finding character transmission errors
+% \fi
 % \CharacterTable
 %  {Upper-case    \A\B\C\D\E\F\G\H\I\J\K\L\M\N\O\P\Q\R\S\T\U\V\W\X\Y\Z
 %   Lower-case    \a\b\c\d\e\f\g\h\i\j\k\l\m\n\o\p\q\r\s\t\u\v\w\x\y\z
@@ -52,9 +74,23 @@
 %   Grave accent  \`     Left brace    \{     Vertical bar  \|
 %   Right brace   \}     Tilde         \~}
 
-%
-%    \begin{macrocode}
+% \changes{v0.1}{2018-04-02}{Initial version}
 
+% \title{The \textsf{linkToId} package}
+% \author{\linkToOrcidNameIcon{Michael G. Hansen}{https://orcid.org/0000-0001-5180-2511} \\ \texttt{mike at mghansen dot de}}
+% \maketitle
+%
+% \iffalse
+%% TODO: Changes are not printed...
+% \fi
+% \StopEventually{\PrintChanges\PrintIndex}
+
+% This document corresponds to \textsf{linkToId}~\fileversion, dated~\filedate.
+% This documentation is currently unfinished. Also, I could not figure out how to get rid of the indexed code lines.
+
+
+
+%    \begin{macrocode}
 % TODO: Read more of clsguide.pdf to find more things to add.
 % TODO: Concerning NeedsTeXFormat: Find out which format we actually require
 
@@ -99,6 +135,11 @@
 
 % \begin{macro}{\linkToOrcidNameIcon}
 % Creates a link consisting of a name and an icon.
+% Usage: \\
+% |\linkToOrcidNameIcon| \marg{name} \marg{orcid-id}\\
+% Example: |\linkToOrcidNameIcon{Josiah Carberry}{https://orcid.org/0000-0002-1825-0097}|\\
+% Output: \linkToOrcidNameIcon{Josiah Carberry}{https://orcid.org/0000-0002-1825-0097}
+
 %    \begin{macrocode}
 % TODO: Add an option to have links only on the icon and not also on the name.
 % TODO: Add an option to remove the margin on the right hand side.
@@ -106,12 +147,32 @@
 %    \end{macrocode}
 %\end{macro}
 
+% \begin{macro}{\linkToOrcidIconId}
+% Creates a link consisting of a name and an icon.
+% Usage: \\
+% |\linkToOrcidIconId| \marg{orcid-id}\\
+% Example: |\linkToOrcidIconId{https://orcid.org/0000-0002-1825-0097}|\\
+% Output: \linkToOrcidIconId{https://orcid.org/0000-0002-1825-0097}
+
 %    \begin{macrocode}
 % TODO: Add an option to remove the margin on the left hand side.
 \newcommand{\linkToOrcidIconId}[1]{\href{\linkToOrcidURL{#1}}{\mbox{\linkToOrcidIconMarginBoth\linkToOrcidIdToDisplayString{#1}}}}
-% TODO: Add an option to have links only on the icon and the id and not also on the name.
-\newcommand{\linkToOrcidNameIconId}[3]{\href{\linkToOrcidURL{#2}}{\mbox{#1\linkToOrcidIconMarginBoth\linkToOrcidIdToDisplayString{#2}}}}
 %    \end{macrocode}
+%\end{macro}
+
+% \begin{macro}{\linkToOrcidNameIconId}
+% Creates a link consisting of a name, an icon and an ID.
+% Usage: \\
+% |\linkToOrcidNameIconId| \marg{name} \marg{orcid-id}\\
+% Example: |\linkToOrcidNameIconId{Josiah Carberry}{https://orcid.org/0000-0002-1825-0097}|\\
+% Output: \linkToOrcidNameIconId{Josiah Carberry}{https://orcid.org/0000-0002-1825-0097}
+
+%    \begin{macrocode}
+% TODO: Add an option to have links only on the icon and the id and not also on the name.
+\newcommand{\linkToOrcidNameIconId}[2]{\href{\linkToOrcidURL{#2}}{\mbox{#1\linkToOrcidIconMarginBoth\linkToOrcidIdToDisplayString{#2}}}}
+%    \end{macrocode}
+%\end{macro}
+
 %
 % \Finale
 \endinput
