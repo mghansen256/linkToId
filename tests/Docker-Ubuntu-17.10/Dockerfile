@@ -10,7 +10,7 @@ RUN apt-get update \
  && apt-get install -y eatmydata
 
 # install latex
-RUN eatmydata apt-get -y install texlive git
+RUN eatmydata apt-get -y install texlive texlive-latex-extra git
 
 # check out source code
 RUN mkdir -pv /src && cd /src && git clone https://github.com/mghansen256/linkToId
