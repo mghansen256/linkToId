@@ -6,6 +6,7 @@
 %%
 %% linkToId.dtx  (with options: `package')
 %% This is a generated file.
+%% Usually, the license is put here. Should we not put the license in the dtx file directly? --> Yes, but that will be removed by docstrip!
 \NeedsTeXFormat{LaTeX2e}[1994/06/01]
 \ProvidesPackage{linkToId}[2018/04/01 Links to ID services such as ORCID]
 
@@ -17,9 +18,9 @@
 \newcommand{\linkToOrcidIdToDisplayString}[1]{#1}
 \newcommand{\linkToOrcidURL}[1]{#1}
 
-\IfFileExists{vector_iD_icon.pdf}{}{\PackageError{linkToId}{File "vector_iD_icon.pdf" missing}{Make sure all files of the package are in the correct path. Maybe you forgot to copy that file?}}
+\IfFileExists{linkToId-icon-ORCID.pdf}{}{\PackageError{linkToId}{File "linkToId-icon-ORCID.pdf" missing}{Make sure all files of the package are in the correct path. Maybe you forgot to copy that file?}}
 
-\newcommand{\linkToOrcidLogo}{\raisebox{-0.2em}{\includegraphics[width=1em]{vector_iD_icon}}}
+\newcommand{\linkToOrcidLogo}{\raisebox{-0.2em}{\includegraphics[width=1em,height=1em]{linkToId-icon-ORCID}}}
 \newcommand{\linkToOrcidLogoMarginLeft}{\hspace{0.25em}\linkToOrcidLogo}
 \newcommand{\linkToOrcidLogoMarginRight}{\hspace{0.25em}\linkToOrcidLogo}
 \newcommand{\linkToOrcidLogoMarginBoth}{\hspace{0.25em}\linkToOrcidLogo\hspace{0.25em}}

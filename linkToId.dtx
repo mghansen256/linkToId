@@ -18,6 +18,7 @@
 % TODO: Concerning \NeedsTeXFormat: Find out which format we actually require
 
 % TODO: Should these packages be included here or included by the user? Now, the user can not pass options to these packages.
+\RequirePackage{ifpdf}
 \RequirePackage{graphicx}
 \RequirePackage{hyperref}
 
@@ -31,11 +32,17 @@
 
 % Check that the logo file actually exists
 % Note that full stops are added by the latex processor at the end of the messages.
-\IfFileExists{vector_iD_icon.pdf}{}{\PackageError{linkToId}{File "vector_iD_icon.pdf" missing}{Make sure all files of the package are in the correct path. Maybe you forgot to copy that file?}}
+\ifpdf
+    % When compiling to PDF, we only need the PDF version of the icon.
+    \IfFileExists{linkToId-icon-ORCID.pdf}{}{\PackageError{linkToId}{File "linkToId-icon-ORCID.pdf" missing}{Make sure all files of the package are in the correct path. Maybe you forgot to copy that file?}}
+\else
+    % TODO: This case could still be DVI, PostScript or HTML. For now, we are only considering DVI/PostScript which includes the .eps-version.
+    \IfFileExists{linkToId-icon-ORCID.eps}{}{\PackageError{linkToId}{File "linkToId-icon-ORCID.eps" missing}{Make sure all files of the package are in the correct path. Maybe you forgot to copy that file?}}
+\fi
 
 % TODO: The -0.2em adjustment has been determined by trial and error, is there a better way?
 % TODO: Include the PDF file in this source somehow.
-\newcommand{\linkToOrcidLogo}{\raisebox{-0.2em}{\includegraphics[width=1em]{vector_iD_icon}}}
+\newcommand{\linkToOrcidLogo}{\raisebox{-0.2em}{\includegraphics[width=1em,height=1em]{linkToId-icon-ORCID}}}
 \newcommand{\linkToOrcidLogoMarginLeft}{\hspace{0.25em}\linkToOrcidLogo}
 \newcommand{\linkToOrcidLogoMarginRight}{\hspace{0.25em}\linkToOrcidLogo}
 \newcommand{\linkToOrcidLogoMarginBoth}{\hspace{0.25em}\linkToOrcidLogo\hspace{0.25em}}
