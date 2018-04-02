@@ -6,6 +6,9 @@ Currently, only [ORCID(R)](https://orcid.org) is supported.
 
 ## Installation
 
+### Installation alongside a document
+
+Since this package is fairly new and not yet on CTAN, it is probably best to simply put the requires files into the folder where you have the .text-document which uses the package. For usage, the file "linkToId.sty" and the files with names beginning with "linkToId-" are required.
 
 ## Usage
 
