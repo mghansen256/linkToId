@@ -12,31 +12,40 @@
 % and version 1.3 or later is part of all distributions of
 % LaTeX version 2005/12/01 or later.
 %
+%<package>\NeedsTeXFormat{LaTeX2e}[1994/06/01]
+%<package>\ProvidesPackage{linkToId}[2018/04/01 Links to ID services such as ORCID]
+%
 % \fi
 %
 % \iffalse
 %
-%<package>\NeedsTeXFormat{LaTeX2e}[1994/06/01]
-%<package>\ProvidesPackage{linkToId}[2018/04/01 Links to ID services such as ORCID]
 %<*driver>
 \documentclass{ltxdoc}
+\EnableCrossrefs
+\CodelineIndex
+\RecordChanges
 \begin{document}
-  \DocInput{linkToId.dtx}
+   \DocInput{linkToId.dtx}
 \end{document}
 %</driver>
 % \fi
+%
+
+%
+%    \begin{macrocode}
 
 % TODO: Read more of clsguide.pdf to find more things to add.
-% TODO: Concerning \NeedsTeXFormat: Find out which format we actually require
+% TODO: Concerning NeedsTeXFormat: Find out which format we actually require
 
 % TODO: Should these packages be included here or included by the user? Now, the user can not pass options to these packages.
+
 \RequirePackage{ifpdf}
 \RequirePackage{graphicx}
 \RequirePackage{hyperref}
 
+% TODO: Add an option on whether to prepend the https://orcid.org/ or not.
 % TODO: Should we be using \DeclareRobustCommand here instead? Difference to \newcommand is not clear to me.
 
-% TODO: Add an option on whether to prepend the https://orcid.org/ or not.
 % TODO: Recognize the ID also without the https://orcid.org/ and prepend it if necessary.
 \newcommand{\linkToOrcidIdToDisplayString}[1]{#1}
 % TODO: Recognize the ID also without the https://orcid.org/ and prepend it if necessary.
@@ -58,13 +67,23 @@
 \newcommand{\linkToOrcidIconMarginLeft}{\hspace{0.25em}\linkToOrcidIcon}
 \newcommand{\linkToOrcidIconMarginRight}{\hspace{0.25em}\linkToOrcidIcon}
 \newcommand{\linkToOrcidIconMarginBoth}{\hspace{0.25em}\linkToOrcidIcon\hspace{0.25em}}
+%    \end{macrocode}
 
+% \begin{macro}{\linkToOrcidNameIcon}
+% Creates a link consisting of a name and an icon.
+%    \begin{macrocode}
 % TODO: Add an option to have links only on the icon and not also on the name.
 % TODO: Add an option to remove the margin on the right hand side.
 \newcommand{\linkToOrcidNameIcon}[2]{\href{\linkToOrcidURL{#2}}{\mbox{#1\linkToOrcidIconMarginBoth}}}
+%    \end{macrocode}
+%\end{macro}
+
+%    \begin{macrocode}
 % TODO: Add an option to remove the margin on the left hand side.
 \newcommand{\linkToOrcidIconId}[1]{\href{\linkToOrcidURL{#1}}{\mbox{\linkToOrcidIconMarginBoth\linkToOrcidIdToDisplayString{#1}}}}
 % TODO: Add an option to have links only on the icon and the id and not also on the name.
 \newcommand{\linkToOrcidNameIconId}[3]{\href{\linkToOrcidURL{#2}}{\mbox{#1\linkToOrcidIconMarginBoth\linkToOrcidIdToDisplayString{#2}}}}
-
+%    \end{macrocode}
+%
+% \Finale
 \endinput

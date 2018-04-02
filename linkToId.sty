@@ -23,6 +23,8 @@
 \ProvidesPackage{linkToId}[2018/04/01 Links to ID services such as ORCID]
 
 
+
+
 \RequirePackage{ifpdf}
 \RequirePackage{graphicx}
 \RequirePackage{hyperref}
@@ -45,9 +47,9 @@
 \newcommand{\linkToOrcidIconMarginBoth}{\hspace{0.25em}\linkToOrcidIcon\hspace{0.25em}}
 
 \newcommand{\linkToOrcidNameIcon}[2]{\href{\linkToOrcidURL{#2}}{\mbox{#1\linkToOrcidIconMarginBoth}}}
+
 \newcommand{\linkToOrcidIconId}[1]{\href{\linkToOrcidURL{#1}}{\mbox{\linkToOrcidIconMarginBoth\linkToOrcidIdToDisplayString{#1}}}}
 \newcommand{\linkToOrcidNameIconId}[3]{\href{\linkToOrcidURL{#2}}{\mbox{#1\linkToOrcidIconMarginBoth\linkToOrcidIdToDisplayString{#2}}}}
-
 \endinput
 %%
 %% End of file `linkToId.sty'.
