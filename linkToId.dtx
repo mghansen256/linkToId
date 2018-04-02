@@ -43,6 +43,13 @@
 \RequirePackage{graphicx}
 \RequirePackage{hyperref}
 
+% linkToIdRelativePath is used to tell us about the relative path from the including tex document to this folder.
+% TODO: Use the currfile package to find the path. But that package may not be standard. 
+\@ifundefined{linkToIdRelativePath}{
+    \newcommand{\linkToIdRelativePath}{.}
+}{
+}
+
 % TODO: Add an option on whether to prepend the https://orcid.org/ or not.
 % TODO: Should we be using \DeclareRobustCommand here instead? Difference to \newcommand is not clear to me.
 
@@ -55,15 +62,15 @@
 % Note that full stops are added by the latex processor at the end of the messages.
 \ifpdf
     % When compiling to PDF, we only need the PDF version of the icon.
-    \IfFileExists{linkToId-icon-ORCID.pdf}{}{\PackageError{linkToId}{File "linkToId-icon-ORCID.pdf" missing}{Make sure all files of the package are in the correct path. Maybe you forgot to copy that file?}}
+    \IfFileExists{\linkToIdRelativePath/linkToId-icon-ORCID.pdf}{}{\PackageError{linkToId}{File "\linkToIdRelativePath/linkToId-icon-ORCID.pdf" missing}{Make sure all files of the package are in the correct path. If you are using linkToId.sty in a subdirectory, make sure linkToIdRelativePath is set correctly.}}
 \else
     % TODO: This case could still be DVI, PostScript or HTML. For now, we are only considering DVI/PostScript which includes the .eps-version.
-    \IfFileExists{linkToId-icon-ORCID.eps}{}{\PackageError{linkToId}{File "linkToId-icon-ORCID.eps" missing}{Make sure all files of the package are in the correct path. Maybe you forgot to copy that file?}}
+    \IfFileExists{\linkToIdRelativePath/linkToId-icon-ORCID.eps}{}{\PackageError{linkToId}{File "\linkToIdRelativePath/linkToId-icon-ORCID.eps" missing}{Make sure all files of the package are in the correct path. If you are using linkToId.sty in a subdirectory, make sure linkToIdRelativePath is set correctly.}}
 \fi
 
 % TODO: The -0.2em adjustment has been determined by trial and error, is there a better way?
 % TODO: Include the PDF file in this source somehow.
-\newcommand{\linkToOrcidIcon}{\raisebox{-0.2em}{\includegraphics[width=1em,height=1em]{linkToId-icon-ORCID}}}
+\newcommand{\linkToOrcidIcon}{\raisebox{-0.2em}{\includegraphics[width=1em,height=1em]{\linkToIdRelativePath/linkToId-icon-ORCID}}}
 \newcommand{\linkToOrcidIconMarginLeft}{\hspace{0.25em}\linkToOrcidIcon}
 \newcommand{\linkToOrcidIconMarginRight}{\hspace{0.25em}\linkToOrcidIcon}
 \newcommand{\linkToOrcidIconMarginBoth}{\hspace{0.25em}\linkToOrcidIcon\hspace{0.25em}}

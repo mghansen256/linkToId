@@ -25,7 +25,13 @@ pdflatex linkToId.dtx
 
 ### Installation alongside a document
 
-Since this package is fairly new and not yet on CTAN, it is probably best to simply put the requires files into the folder where you have the .text-document which uses the package. For usage, the file "linkToId.sty" and the files with names beginning with "linkToId-" are required.
+Since this package is fairly new and not yet on CTAN, it is probably best to simply put the whole package directory as a subdirectory into the folder where you have the .text-document which uses the package. Then, however, you have to tell linkToId about the sub-path manually:
+
+```latex
+% linkToId.sty is in the directory "linkToId-subdirectory"
+\newcommand{\linkToIdRelativePath}{linkToId-subdirectory}
+\usepackage{linkToId-subdirectory/linkToId}
+```
 
 ## Usage
 
