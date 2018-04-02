@@ -6,6 +6,21 @@ Currently, only [ORCID(R)](https://orcid.org) is supported.
 
 ## Installation
 
+### Creation of the style file and the documentation
+
+To (re-)generate the style file, run:
+
+```
+latex linkToId.ins
+```
+
+Then, to create the package documentation in a PDF file, run:
+
+```
+pdflatex linkToId.dtx
+```
+
+
 ### Installation alongside a document
 
 Since this package is fairly new and not yet on CTAN, it is probably best to simply put the requires files into the folder where you have the .text-document which uses the package. For usage, the file "linkToId.sty" and the files with names beginning with "linkToId-" are required.
