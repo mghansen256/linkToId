@@ -1,10 +1,12 @@
-LaTeX package to create links to ID services such as ORCID
-==========================================================
+linkToId for LaTeX [![Build Status](https://travis-ci.org/mghansen256/linkToId.svg?branch=master)](https://travis-ci.org/mghansen256/linkToId)
+==================
 
 This LaTeX package provides a style file to create links to ID services for researchers.
 Currently, only [ORCID(R)](https://orcid.org) is supported.
 
 ## Installation
+
+If you encounter problems during installation, please have a look at a Dockerfile in the tests/Docker-* subdirectories to see what might be wrong.
 
 ### Creation of the style file and the documentation
 
