@@ -22,4 +22,9 @@ RUN cd /src/linkToId \
  && latex -interaction=nonstopmode -halt-on-error linkToId.ins \
  && pdflatex -interaction=nonstopmode -halt-on-error linkToId.dtx
 
+# compile the test document once to DVI and once to PDF
+RUN cd /src/linkToId \
+ && latex -interaction=nonstopmode -halt-on-error test-orcid.tex \
+ && pdflatex -interaction=nonstopmode -halt-on-error test-orcid.tex
+
 CMD bash
