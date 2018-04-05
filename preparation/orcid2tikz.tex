@@ -1,6 +1,28 @@
 \documentclass{article}
 \usepackage{tikz}
 
+\newcommand{\linkToIdOrcidIcon}{\begin{tikzpicture}[x=1.6ex,y=1.6ex] % Found by experiment that 1.6ex is about the height of the currently used font\
+% #A6CE39 = {166/256,206/256,57/256} = {0.651, 0.808, 0.224}\
+\definecolor{orcidgreen}{rgb}{0.651, 0.808, 0.224}\
+% the image has a size of 2.56em. We need to scale it such that 2.56em -> 1em. Conversion factor: 0.39\
+\begin{scope}[yscale=0.39,xscale=0.39]\
+% The y axes is mirrored since the SVG coordinates are in opposite direction.\
+% The drawing is then still downwards from 0, therefore we move it up to have its bottom at 0\
+\begin{scope}[shift={(0,2.56)},yscale=-1,xscale=1]\
+% this is the large surrounding circle\
+\fill [orcidgreen] (1.28,1.28) circle (1.28);\
+% this is the base of the "i", can be drawn as a filled rectangle\
+\fill [white] (0.863,1.862) rectangle (0.709,0.791);\
+% this is the outer shape of the "D"\
+\fill [white] (1.089,0.791) -- (1.505,0.791) .. controls (1.901,0.791) and (2.075,1.074) .. (2.075,1.327) .. controls (2.075,1.602) and (1.86,1.863) .. (1.507,1.863) -- (1.089,1.863) -- (1.089,0.791) -- cycle;\
+% this is the inner shape of the "D"\
+\fill [orcidgreen] (1.243,1.724) -- (1.488,1.724) .. controls (1.837,1.724) and (1.917,1.459) .. (1.917,1.327) .. controls (1.917,1.112) and (1.780,0.93) .. (1.48,0.93) -- (1.243,0.93) -- cycle;\
+% this is the dot of the "i"\
+\fill [white] (0.786,0.568) circle (0.101);\
+\end{scope}\
+\end{scope}\
+\end{tikzpicture}}
+
 % from ORCID's SVG icon:
 % <style type="text/css">
 %   .st0{fill:#A6CE39;}
@@ -190,4 +212,10 @@ ABCD% Found by experiment that 1.6ex is about the height of the currently used f
 \end{scope}
 \end{tikzpicture}EFGH
 
+\begin{itemize}
+\item ASDF\linkToIdOrcidIcon
+\item Height does not match here: \texttt{ASDF\linkToIdOrcidIcon}
+\item \textrm{ASDF\linkToIdOrcidIcon}
+\item Final F hits icon: \textit{ASDF\linkToIdOrcidIcon}
+\end{itemize}
 \end{document}
