@@ -62,6 +62,11 @@ Create links to ORCID using names and IDs:
 ```latex
 \linkToOrcidNameIconId{Josiah Carberry}{https://orcid.org/0000-0002-1825-0097}
 ```
+
+## Using linkToId with LyX
+
+A sample file containing definitions of custom insets for usage with [LyX](https://www.lyx.org/) can be found in the *lyx* subdirectory.
+
 ## Known issues
 
 - The height of the icon does not always match the height of the font, even though it is scaled in units of *ex*.
