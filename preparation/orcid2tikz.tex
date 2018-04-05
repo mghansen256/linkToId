@@ -1,6 +1,7 @@
 \documentclass{article}
 \usepackage{tikz}
 
+% from ORCID's SVG icon:
 % <style type="text/css">
 %   .st0{fill:#A6CE39;}
 %   .st1{fill:#FFFFFF;}
@@ -11,16 +12,13 @@
 %   <path class="st1" d="M108.9,79.1h41.6c39.6,0,57,28.3,57,53.6c0,27.5-21.5,53.6-56.8,53.6h-41.8V79.1z M124.3,172.4h24.5   c34.9,0,42.9-26.5,42.9-39.7c0-21.5-13.7-39.7-43.7-39.7h-23.7V172.4z"/>
 %   <path class="st1" d="M88.7,56.8c0,5.5-4.5,10.1-10.1,10.1c-5.6,0-10.1-4.6-10.1-10.1c0-5.6,4.5-10.1,10.1-10.1   C84.2,46.7,88.7,51.3,88.7,56.8z"/>
 % </g>
-%     M = moveto
-%     L = lineto
-%     H = horizontal lineto
-%     V = vertical lineto
-%     C = curveto
-%     S = smooth curveto
-%     Q = quadratic Bézier curve
-%     T = smooth quadratic Bézier curveto
-%     A = elliptical Arc
-%     Z = closepath
+
+% M move to
+% C curve to, next two points are control points, then endpoint
+% Z close path
+% H horizontal line
+% V vertical line
+% capital letters mean that absolute coordinates follow, lower case means relative coordinates
 
 \begin{document}
 \begin{tikzpicture}
