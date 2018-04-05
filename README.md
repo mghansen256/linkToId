@@ -25,11 +25,9 @@ pdflatex linkToId.dtx
 
 ### Installation alongside a document
 
-Since this package is fairly new and not yet on CTAN, it is probably best to simply put the whole package directory as a subdirectory into the folder where you have the .text-document which uses the package. Then, however, you have to tell linkToId about the sub-path manually:
+Since this package is fairly new and not yet on CTAN, it is probably best to simply put the style file into the folder of your document or put the whole package directory as a subdirectory into the folder where you have the .tex-document which uses the package. You can easily tell *usepackage* that it can find the style file in a subdirectory:
 
 ```latex
-% linkToId.sty is in the directory "linkToId-subdirectory"
-\newcommand{\linkToIdRelativePath}{linkToId-subdirectory}
 \usepackage{linkToId-subdirectory/linkToId}
 ```
 
@@ -64,6 +62,8 @@ Create links to ORCID using names and IDs:
 ```latex
 \linkToOrcidNameIconId{Josiah Carberry}{https://orcid.org/0000-0002-1825-0097}
 ```
+## Known issues
 
+- The height of the icon does not always match the height of the font, even though it is scaled in units of *ex*.
 
 
