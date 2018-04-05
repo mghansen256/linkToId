@@ -10,7 +10,7 @@ RUN apt-get update \
  && apt-get install -y eatmydata
 
 # install latex
-RUN eatmydata apt-get -y install texlive texlive-latex-extra git
+RUN eatmydata apt-get -y install texlive texlive-latex-extra git lyx
 
 # check out source code
 RUN mkdir -pv /src && cd /src && git clone https://github.com/mghansen256/linkToId
@@ -26,5 +26,9 @@ RUN cd /src/linkToId \
 RUN cd /src/linkToId \
  && latex -interaction=nonstopmode -halt-on-error test-orcid.tex \
  && pdflatex -interaction=nonstopmode -halt-on-error test-orcid.tex
+
+# use LyX to export the LyX demonstration document to PDF via internal pdflatex conversion
+RUN cd /src/linkToId/lyx \
+ && lyx -E pdf lyx-linkToId-1.pdf lyx-linkToId-1.lyx
 
 CMD bash
