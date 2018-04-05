@@ -109,12 +109,22 @@
 % the y axes is mirrored since the SVG coordinates are in opposite direction
 \begin{scope}[yscale=-0.39,xscale=0.39]
 
+% The commented-out drawing commands were only used to verify the final fill parameters.
+% To be kept as reference. docstrip will remove them from the final style file.
+
 % this is the large surrounding circle
 % M256,128 c 0,70.7 -57.3,128 -128,128 C 57.3,256, 0,198.7, 0,128 C 0,57.3, 57.3,0, 128,0 C 198.7,0, 256,57.3, 256,128 z
-\fill [orcidgreen] (2.56,1.28) .. controls (2.56+0,1.28+0.707) and (2.56+-0.573,1.28+1.28) .. (2.56-1.28,1.28+1.28) .. controls (0.573,2.56) and (0,1.987) .. (0,1.28) .. controls (0,0.573) and (0.573,0) .. (1.28,0) .. controls (1.987,0) and (2.56,0.573) .. (2.56,1.28);
+%\fill [orcidgreen] (2.56,1.28) .. controls (2.56+0,1.28+0.707) and (2.56+-0.573,1.28+1.28) .. (2.56-1.28,1.28+1.28) .. controls (0.573,2.56) and (0,1.987) .. (0,1.28) .. controls (0,0.573) and (0.573,0) .. (1.28,0) .. controls (1.987,0) and (2.56,0.573) .. (2.56,1.28);
+% draw the endpoints of the curves
+%\draw (2.56,1.28) -- (2.56-1.28,1.28+1.28) -- (0,1.28) -- (1.28,0) -- cycle;
+% the circle outline
+%\draw (1.28,1.28) circle (1.28);
+% fill the circle
+\fill [orcidgreen] (1.28,1.28) circle (1.28);
 
 % this is the base of the "i", can be drawn as a filled rectangle
 % M 86.3,186.2 H 70.9 V 79.1 h 15.4 v 48.4 V 186.2 z
+% \fill [white] (0.863,1.862) -- (0.709,1.862) -- (0.709,0.791) -- (0.709+0.154,0.791) -- (0.709+0.154,0.791+0.484) -- (0.709+0.154,1.862) -- cycle;
 \fill [white] (0.863,1.862) rectangle (0.709,0.791);
 
 % this is the outer shape of the "D"
@@ -128,7 +138,14 @@
 
 % this is the dot of the "i"
 % M 88.7,56.8 c 0,5.5 -4.5,10.1 -10.1,10.1 c -5.6,0 -10.1-4.6 -10.1-10.1 c 0-5.6, 4.5-10.1, 10.1-10.1   C 84.2,46.7, 88.7,51.3, 88.7,56.8 z
-\fill [white] (0.887,0.568) .. controls (0.887+0,0.568+0.055) and (0.887-0.045,0.568+0.101) .. (0.887-0.101,0.568+0.101) .. controls (0.887-0.101-0.056,0.568+0.101+0) and (0.887-0.101-0.101,0.568+0.101-0.046) .. (0.887-0.101-0.101,0.568+0.101-0.101) .. controls (0.887-0.101-0.101+0,0.568+0.101-0.101-0.056) and (0.887-0.101-0.101+0.045,0.568+0.101-0.101-0.101) .. (0.887-0.101-0.101+0.101,0.568+0.101-0.101-0.101) .. controls (0.842,0.467) and (0.887,0.513) .. (0.887,0.568) -- cycle;
+% \fill [white] (0.887,0.568) .. controls (0.887+0,0.568+0.055) and (0.887-0.045,0.568+0.101) .. (0.887-0.101,0.568+0.101) .. controls (0.887-0.101-0.056,0.568+0.101+0) and (0.887-0.101-0.101,0.568+0.101-0.046) .. (0.887-0.101-0.101,0.568+0.101-0.101) .. controls (0.887-0.101-0.101+0,0.568+0.101-0.101-0.056) and (0.887-0.101-0.101+0.045,0.568+0.101-0.101-0.101) .. (0.887-0.101-0.101+0.101,0.568+0.101-0.101-0.101) .. controls (0.842,0.467) and (0.887,0.513) .. (0.887,0.568) -- cycle;
+% use the endpoints of the curves to draw a rectangle outline instead of a circle to see the edges
+%\draw (0.887,0.568) -- (0.887-0.101,0.568+0.101) -- (0.887-0.101-0.101,0.568+0.101-0.101) -- (0.887-0.101-0.101+0.101,0.568+0.101-0.101-0.101) -- cycle;
+% the circle is centered at (0.887-0.101,0.568) and has a radius of 0.101
+%\draw (0.887-0.101,0.568) circle (0.101);
+% fill the circle
+\fill [white] (0.887-0.101,0.568) circle (0.101);
+
 \end{scope}
 \end{tikzpicture}}
 
