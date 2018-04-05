@@ -103,6 +103,8 @@
 
 \RequirePackage{ifpdf}
 \RequirePackage{tikz}
+\RequirePackage{xstring}
+\RequirePackage{stringstrings}
 \RequirePackage{hyperref}
 
 %    \end{macrocode}
@@ -145,9 +147,27 @@
 % TODO: Add an option on whether to prepend the https://orcid.org/ or not.
 % TODO: Recognize the ID also without the https://orcid.org/ and prepend it if necessary.
 \newcommand{\linkToOrcidIdToDisplayString}[1]{#1}
-% TODO: Recognize the ID also without the https://orcid.org/ and prepend it if necessary.
-\newcommand{\linkToOrcidURL}[1]{#1}
 %    \end{macrocode}
+
+% \begin{macro}{\linkToOrcidEnsureURLPrefix}
+% Ensures that an ORCID id starts with https://orcid.org/-prefix
+% Usage: \\
+% |\linkToOrcidEnsureURLPrefix| \marg{orcid-id}\\
+% Example: |\linkToOrcidEnsureURLPrefix{https://orcid.org/0000-0002-1825-0097}|\\
+% Output: \linkToOrcidEnsureURLPrefix{https://orcid.org/0000-0002-1825-0097}\\
+% Example: |\linkToOrcidEnsureURLPrefix{0000-0002-1825-0097}|\\
+% Output: \linkToOrcidEnsureURLPrefix{0000-0002-1825-0097}
+%    \begin{macrocode}
+% TODO: Both versions below can not be used inside texorpdfstring, pdflatex
+%       stops with "TeX capacity exceeded, sorry [input stack size=5000]"
+%       Therefore, this command is not yet used.
+% using xstring:
+%\newcommand{\linkToOrcidEnsureURLPrefix}[1]{\expandafter\IfBeginWith{#1}{https://orcid.org/}{#1}{https://orcid.org/#1}\relax}
+% using stringstrings:
+\newcommand{\linkToOrcidEnsureURLPrefix}[1]{\whereisword[q]{#1}{https://orcid.org/}\ifnum1=\theresult #1\else https://orcid.org/#1\fi}
+%    \end{macrocode}
+%\end{macro}
+
 
 % \subsubsection{Usage}
 
@@ -165,7 +185,7 @@
 %    \begin{macrocode}
 % TODO: Add an option to have links only on the icon and not also on the name.
 % TODO: Add an option to remove the margin on the right hand side.
-\newcommand{\linkToOrcidNameIcon}[2]{\texorpdfstring{\href{\linkToOrcidURL{#2}}{\mbox{#1\linkToOrcidIconMarginBoth}}}{#1}}
+\newcommand{\linkToOrcidNameIcon}[2]{\texorpdfstring{\href{#2}{\mbox{#1\linkToOrcidIconMarginBoth}}}{#1}}
 %    \end{macrocode}
 %\end{macro}
 
@@ -178,7 +198,7 @@
 
 %    \begin{macrocode}
 % TODO: Add an option to remove the margin on the left hand side.
-\newcommand{\linkToOrcidIconId}[1]{\texorpdfstring{\href{\linkToOrcidURL{#1}}{\mbox{\linkToOrcidIconMarginBoth\linkToOrcidIdToDisplayString{#1}}}}{#1}}
+\newcommand{\linkToOrcidIconId}[1]{\texorpdfstring{\href{#1}{\mbox{\linkToOrcidIconMarginBoth\linkToOrcidIdToDisplayString{#1}}}}{#1}}
 %    \end{macrocode}
 %\end{macro}
 
@@ -191,7 +211,7 @@
 
 %    \begin{macrocode}
 % TODO: Add an option to have links only on the icon and the id and not also on the name.
-\newcommand{\linkToOrcidNameIconId}[2]{\texorpdfstring{\href{\linkToOrcidURL{#2}}{\mbox{#1\linkToOrcidIconMarginBoth\linkToOrcidIdToDisplayString{#2}}}}{#1: \linkToOrcidIdToDisplayString{#2}}}
+\newcommand{\linkToOrcidNameIconId}[2]{\texorpdfstring{\href{#2}{\mbox{#1\linkToOrcidIconMarginBoth\linkToOrcidIdToDisplayString{#2}}}}{#1: \linkToOrcidIdToDisplayString{#2}}}
 %    \end{macrocode}
 %\end{macro}
 
