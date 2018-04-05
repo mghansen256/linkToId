@@ -74,8 +74,6 @@ End
 \paperfontsize default
 \spacing single
 \use_hyperref true
-\pdf_title "Test of the linkToId package with lyx"
-\pdf_author "Michael G. Hansen"
 \pdf_bookmarks true
 \pdf_bookmarksnumbered false
 \pdf_bookmarksopen false
@@ -84,7 +82,7 @@ End
 \pdf_pdfborder false
 \pdf_colorlinks false
 \pdf_backref false
-\pdf_pdfusetitle false
+\pdf_pdfusetitle true
 \papersize default
 \use_geometry false
 \use_package amsmath 1
@@ -128,7 +126,7 @@ End
 \begin_body
 
 \begin_layout Title
-Test of the linkToId package with lyx
+Test of the linkToId package with LyX
 \end_layout
 
 \begin_layout Author
@@ -169,7 +167,7 @@ Usage
 \end_layout
 
 \begin_layout Standard
-To use linkToId with lyx, copy the latex preamble and local layout from
+To use linkToId with LyX, copy the latex preamble and local layout from
  this document's document settings.
  Then you can insert the following custom insets (Insert->Custom insets)
  into your document.
@@ -265,25 +263,6 @@ https://orcid.org/0000-0002-1825-0097
 \end_inset
 
 
-\end_layout
-
-\begin_layout Section
-Known issues
-\end_layout
-
-\begin_layout Enumerate
-When using a linkToId inset in a lyx author field, the document can not
- be compiled if 
-\begin_inset Quotes eld
-\end_inset
-
-Automatically fill header
-\begin_inset Quotes erd
-\end_inset
-
- is enabled in the document's PDF options.
- Probably using the texorpdf macro inside the linkToId macros will make
- this possible.
 \end_layout
 
 \end_body
