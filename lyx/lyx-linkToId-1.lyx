@@ -11,7 +11,7 @@
 \use_default_options true
 \maintain_unincluded_children false
 \begin_local_layout
-InsetLayout linkToOrcidNameIcon
+InsetLayout Flex:linkToOrcidNameIcon
 LyxType Custom
 LabelString "ORCID name and icon"
 LatexType Command
@@ -26,7 +26,7 @@ LabelString "ORCID"
 EndArgument
 End
 
-InsetLayout linkToOrcidIconId
+InsetLayout Flex:linkToOrcidIconId
 LyxType Custom
 LabelString "ORCID icon id"
 LatexType Command
@@ -37,7 +37,7 @@ LabelString "ORCID"
 EndArgument
 End
 
-InsetLayout linkToOrcidNameIconId
+InsetLayout Flex:linkToOrcidNameIconId
 LyxType Custom
 LabelString "ORCID name icon id"
 LatexType Command
@@ -130,7 +130,7 @@ Test of the linkToId package with LyX
 \end_layout
 
 \begin_layout Author
-\begin_inset Flex linkToOrcidNameIcon
+\begin_inset Flex Flex:linkToOrcidNameIcon
 status open
 
 \begin_layout Plain Layout
@@ -178,7 +178,7 @@ To use linkToId with LyX, copy the latex preamble and local layout from
 
 \begin_layout Itemize
 Name and icon: 
-\begin_inset Flex linkToOrcidNameIcon
+\begin_inset Flex Flex:linkToOrcidNameIcon
 status open
 
 \begin_layout Plain Layout
@@ -211,7 +211,7 @@ https://orcid.org/0000-0002-1825-0097
 
 \begin_layout Itemize
 Icon and id: 
-\begin_inset Flex linkToOrcidIconId
+\begin_inset Flex Flex:linkToOrcidIconId
 status open
 
 \begin_layout Plain Layout
@@ -234,7 +234,7 @@ https://orcid.org/0000-0002-1825-0097
 
 \begin_layout Itemize
 Name, icon and id: 
-\begin_inset Flex linkToOrcidNameIconId
+\begin_inset Flex Flex:linkToOrcidNameIconId
 status open
 
 \begin_layout Plain Layout
