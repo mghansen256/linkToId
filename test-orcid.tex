@@ -15,6 +15,13 @@
 \usepackage{linkToId}
 \usepackage{lastpage}
 \usepackage{fancyhdr}
+\usepackage[]{hyperref}
+
+% Use \linkToOrcidNameIcon to simulate what lyx does when using it in the author field
+\hypersetup{
+    pdftitle = {Test ORCID part of package linkToId},
+    pdfauthor = {\linkToOrcidNameIcon{Michael G. Hansen}{https://orcid.org/0000-0001-5180-2511}}
+}
 
 % 0 means passed
 \newcommand{\testResult}{0}

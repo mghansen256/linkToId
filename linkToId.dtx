@@ -224,9 +224,11 @@ end
 
 } % end directlua
 
+% note: this command can not be used inside PDF-code, has to be used inside the tex part of \texorpdfstring
 \newcommand{\linkToIdCheckORCID}[1]{\ifodd\directlua{linkToId.checkORCIDWrapperBool("#1")} \PackageError{linkToId}{\directlua{linkToId.checkORCIDWrapperMessage("#1")}}{I can not help you more, please check that you did not mistype the ORCID. Also, the ORCID has to begin with https://orcid.org/}\fi}
 
 \else %ifluatex
+% note: this command can not be used inside PDF-code, has to be used inside the tex part of \texorpdfstring
 \newcommand{\linkToIdCheckORCID}[1]{\whereisword[q]{#1}{https://orcid.org/}\ifnum1=\theresult\else \PackageError{linkToId}{Invalid ORCID: Missing URL https://orcid.org in "#1"}{I can not help you more, please check that you did not mistype the ORCID. Also, the ORCID has to begin with https://orcid.org/}\fi}
 \fi %ifluatex
 %    \end{macrocode}
@@ -247,7 +249,7 @@ end
 %    \begin{macrocode}
 % TODO: Add an option to have links only on the icon and not also on the name.
 % TODO: Add an option to remove the margin on the right hand side.
-\newcommand{\linkToOrcidNameIcon}[2]{\linkToIdCheckORCID{#2}\texorpdfstring{\href{#2}{\mbox{#1\linkToOrcidIconMarginBoth}}}{#1}}
+\newcommand{\linkToOrcidNameIcon}[2]{\texorpdfstring{\linkToIdCheckORCID{#2}\href{#2}{\mbox{#1\linkToOrcidIconMarginBoth}}}{#1}}
 %    \end{macrocode}
 %\end{macro}
 
@@ -260,7 +262,7 @@ end
 
 %    \begin{macrocode}
 % TODO: Add an option to remove the margin on the left hand side.
-\newcommand{\linkToOrcidIconId}[1]{\linkToIdCheckORCID{#1}\texorpdfstring{\href{#1}{\mbox{\linkToOrcidIconMarginBoth#1}}}{#1}}
+\newcommand{\linkToOrcidIconId}[1]{\texorpdfstring{\linkToIdCheckORCID{#1}\href{#1}{\mbox{\linkToOrcidIconMarginBoth#1}}}{#1}}
 %    \end{macrocode}
 %\end{macro}
 
@@ -273,7 +275,7 @@ end
 
 %    \begin{macrocode}
 % TODO: Add an option to have links only on the icon and the id and not also on the name.
-\newcommand{\linkToOrcidNameIconId}[2]{\linkToIdCheckORCID{#2}\texorpdfstring{\href{#2}{\mbox{#1\linkToOrcidIconMarginBoth#2}}}{#1: #2}}
+\newcommand{\linkToOrcidNameIconId}[2]{\texorpdfstring{\linkToIdCheckORCID{#2}\href{#2}{\mbox{#1\linkToOrcidIconMarginBoth#2}}}{#1: #2}}
 %    \end{macrocode}
 %\end{macro}
 

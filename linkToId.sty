@@ -141,13 +141,13 @@ end
 
 
 
-\newcommand{\linkToOrcidNameIcon}[2]{\linkToIdCheckORCID{#2}\texorpdfstring{\href{#2}{\mbox{#1\linkToOrcidIconMarginBoth}}}{#1}}
+\newcommand{\linkToOrcidNameIcon}[2]{\texorpdfstring{\linkToIdCheckORCID{#2}\href{#2}{\mbox{#1\linkToOrcidIconMarginBoth}}}{#1}}
 
 
-\newcommand{\linkToOrcidIconId}[1]{\linkToIdCheckORCID{#1}\texorpdfstring{\href{#1}{\mbox{\linkToOrcidIconMarginBoth#1}}}{#1}}
+\newcommand{\linkToOrcidIconId}[1]{\texorpdfstring{\linkToIdCheckORCID{#1}\href{#1}{\mbox{\linkToOrcidIconMarginBoth#1}}}{#1}}
 
 
-\newcommand{\linkToOrcidNameIconId}[2]{\linkToIdCheckORCID{#2}\texorpdfstring{\href{#2}{\mbox{#1\linkToOrcidIconMarginBoth#2}}}{#1: #2}}
+\newcommand{\linkToOrcidNameIconId}[2]{\texorpdfstring{\linkToIdCheckORCID{#2}\href{#2}{\mbox{#1\linkToOrcidIconMarginBoth#2}}}{#1: #2}}
 
 \endinput
 %%
