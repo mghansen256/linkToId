@@ -7,6 +7,7 @@
 \textclass article
 \begin_preamble
 \usepackage{../linkToId}
+\usepackage{ifluatex}
 \end_preamble
 \use_default_options true
 \maintain_unincluded_children false
@@ -130,7 +131,7 @@ Test of the linkToId package with LyX
 \end_layout
 
 \begin_layout Author
-\begin_inset Flex Flex:linkToOrcidNameIcon
+\begin_inset Flex linkToOrcidNameIcon
 status open
 
 \begin_layout Plain Layout
@@ -163,6 +164,35 @@ https://orcid.org/0000-0001-5180-2511
 \end_layout
 
 \begin_layout Section
+Backend
+\end_layout
+
+\begin_layout Standard
+Backend information: 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+ifluatex Using lualatex backend
+\backslash
+else Not using lualatex backend.
+\backslash
+fi
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
 Usage
 \end_layout
 
@@ -178,7 +208,7 @@ To use linkToId with LyX, copy the latex preamble and local layout from
 
 \begin_layout Itemize
 Name and icon: 
-\begin_inset Flex Flex:linkToOrcidNameIcon
+\begin_inset Flex linkToOrcidNameIcon
 status open
 
 \begin_layout Plain Layout
@@ -211,7 +241,7 @@ https://orcid.org/0000-0002-1825-0097
 
 \begin_layout Itemize
 Icon and id: 
-\begin_inset Flex Flex:linkToOrcidIconId
+\begin_inset Flex linkToOrcidIconId
 status open
 
 \begin_layout Plain Layout
@@ -234,7 +264,7 @@ https://orcid.org/0000-0002-1825-0097
 
 \begin_layout Itemize
 Name, icon and id: 
-\begin_inset Flex Flex:linkToOrcidNameIconId
+\begin_inset Flex linkToOrcidNameIconId
 status open
 
 \begin_layout Plain Layout
