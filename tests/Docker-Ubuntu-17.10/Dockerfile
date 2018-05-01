@@ -20,12 +20,14 @@ RUN mkdir -pv /src && cd /src && git clone https://github.com/mghansen256/linkTo
 RUN cd /src/linkToId \
  && rm -f linkToId.sty \
  && latex -interaction=nonstopmode -halt-on-error linkToId.ins \
+ && pdflatex -interaction=nonstopmode -halt-on-error linkToId.dtx \
  && pdflatex -interaction=nonstopmode -halt-on-error linkToId.dtx
 
 # compile the test document once to DVI and once to PDF
 RUN cd /src/linkToId \
  && latex -interaction=nonstopmode -halt-on-error test-orcid.tex \
- && pdflatex -interaction=nonstopmode -halt-on-error test-orcid.tex
+ && pdflatex -interaction=nonstopmode -halt-on-error test-orcid.tex \
+ && lualatex -interaction=nonstopmode -halt-on-error test-orcid.tex
 
 # use LyX to export the LyX demonstration document to PDF via internal pdflatex conversion
 RUN cd /src/linkToId/lyx \
