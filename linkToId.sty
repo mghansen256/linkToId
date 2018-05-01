@@ -39,6 +39,7 @@
 \RequirePackage{tikz}
 \RequirePackage{stringstrings}
 \RequirePackage{hyperref}
+\RequirePackage{ifluatex}
 
 
 \newcommand{\linkToOrcidIcon}{\begin{tikzpicture}[x=1.6ex,y=1.6ex] % Found by experiment that 1.6ex is about the height of the currently used font\
@@ -57,20 +58,96 @@
 \newcommand{\linkToOrcidIconMarginRight}{\hspace{0.25em}\linkToOrcidIcon}
 \newcommand{\linkToOrcidIconMarginBoth}{\hspace{0.25em}\linkToOrcidIcon\hspace{0.25em}}
 
-\newcommand{\linkToOrcidIdToDisplayString}[1]{#1}
+\ifluatex
+\directlua{
 
-\newcommand{\linkToOrcidEnsureURLPrefix}[1]{\whereisword[q]{#1}{https://orcid.org/}\ifnum1=\theresult #1\else https://orcid.org/#1\fi}
+linkToId = {};
+
+linkToId.checkORCIDCheckSum = function(orcidIdString)
+    %-- Method for verifying the checksum is described here:
+    %-- https://support.orcid.org/knowledgebase/articles/116780-structure-of-the-orcid-identifier
+    local o2=string.gsub(orcidIdString,"-","");
+    local code0=string.byte("0");
+    local total=0;
+    for i = 1,(string.len(o2)-1) do
+        local myC=string.sub(o2,i,i);
+        local myAsc=tonumber(string.byte(myC,1,1));
+        local myDigit=myAsc-code0;
+        total = (total + myDigit)*2;
+    end
+
+    %-- Using the percent sign as a modulo operator does not seem to work in luatex.
+    local remainder = math.fmod(total, 11);
+    local checkResult=math.fmod((12-remainder), 11);
+    local checkSumDigit = tostring(checkResult);
+    %-- replace 10 by X:
+    if checkResult==10 then
+        checkSumDigit = "X";
+    end
+    local isValid = (checkSumDigit == string.sub(o2, 16, 16));
+
+    return isValid;
+end
+
+linkToId.checkORCID = function(orcidStringWithURL)
+    local httpsString="https://orcid.org/";
+    if not (string.sub(orcidStringWithURL,1,string.len(httpsString))==httpsString) then
+        return false, "Does not start with https://orcid.org"
+    end
+
+    %-- TODO: check for the xxxx-xxxx-xxxx-xxxX structure
+    %--       Delayed because string.find needs a percent sign
+    local idOnly = string.sub(orcidStringWithURL, string.len(httpsString)+1);
+    if not (string.len(idOnly)==16+3) then
+        return false, "Does not have a valid length behind URL (should be 19 digits)"
+    end
+
+    local checkSumOk = linkToId.checkORCIDCheckSum(idOnly);
+    if not checkSumOk then
+        return false, "Checksum does not match";
+    end
+
+    return true, "Ok.";
+end
+
+linkToId.checkORCIDWrapperBool = function(orcidString)
+    local isValid, errorMessage = linkToId.checkORCID(orcidString);
+
+    if isValid then
+        tex.print(0);
+    else
+        tex.print(1);
+    end
+end
+
+linkToId.checkORCIDWrapperMessage = function(orcidString)
+    local isValid, errorMessage = linkToId.checkORCID(orcidString);
+
+    if not isValid then
+        tex.print("Invalid ORCID: ");
+        tex.print(orcidString);
+        tex.print(errorMessage);
+    end
+end
+
+} % end directlua
+
+\newcommand{\linkToIdCheckORCID}[1]{\ifodd\directlua{linkToId.checkORCIDWrapperBool("#1")} \PackageError{linkToId}{\directlua{linkToId.checkORCIDWrapperMessage("#1")}}{I can not help you more, please check that you did not mistype the ORCID. Also, the ORCID has to begin with https://orcid.org/}\fi}
+
+\else %ifluatex
+\newcommand{\linkToIdCheckORCID}[1]{\whereisword[q]{#1}{https://orcid.org/}\ifnum1=\theresult\else \PackageError{linkToId}{Invalid ORCID: Missing URL https://orcid.org in "#1"}{I can not help you more, please check that you did not mistype the ORCID. Also, the ORCID has to begin with https://orcid.org/}\fi}
+\fi %ifluatex
 
 
 
 
-\newcommand{\linkToOrcidNameIcon}[2]{\texorpdfstring{\href{#2}{\mbox{#1\linkToOrcidIconMarginBoth}}}{#1}}
+\newcommand{\linkToOrcidNameIcon}[2]{\linkToIdCheckORCID{#2}\texorpdfstring{\href{#2}{\mbox{#1\linkToOrcidIconMarginBoth}}}{#1}}
 
 
-\newcommand{\linkToOrcidIconId}[1]{\texorpdfstring{\href{#1}{\mbox{\linkToOrcidIconMarginBoth\linkToOrcidIdToDisplayString{#1}}}}{#1}}
+\newcommand{\linkToOrcidIconId}[1]{\linkToIdCheckORCID{#1}\texorpdfstring{\href{#1}{\mbox{\linkToOrcidIconMarginBoth#1}}}{#1}}
 
 
-\newcommand{\linkToOrcidNameIconId}[2]{\texorpdfstring{\href{#2}{\mbox{#1\linkToOrcidIconMarginBoth\linkToOrcidIdToDisplayString{#2}}}}{#1: \linkToOrcidIdToDisplayString{#2}}}
+\newcommand{\linkToOrcidNameIconId}[2]{\linkToIdCheckORCID{#2}\texorpdfstring{\href{#2}{\mbox{#1\linkToOrcidIconMarginBoth#2}}}{#1: #2}}
 
 \endinput
 %%
