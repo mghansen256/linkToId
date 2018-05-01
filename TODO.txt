@@ -1,0 +1,1 @@
+- when closing document preferences in demo document in lyx, there is an error about two many flex:-statements
