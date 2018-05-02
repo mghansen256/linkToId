@@ -49,18 +49,14 @@
 %</driver>
 % \fi
 %
-% \iffalse
-%% TODO: How to properly comment the documentation? Only the iffalse prevents
-%% these comments from being inserted into the document as regular text.
-%% Counts the number of backslashes in the file and compares them to the parameter.
-%% Parameter value 0 only outputs a warning. Checksum requires that the command
-%% StopEventually is used somewhere in the document.
-% \fi
+%^ TODO: How to properly comment the documentation? Only the iffalse prevents
+%^ these comments from being inserted into the document as regular text.
+%^ Counts the number of backslashes in the file and compares them to the parameter.
+%^ Parameter value 0 only outputs a warning. Checksum requires that the command
+%  StopEventually is used somewhere in the document.
 % \CheckSum{0}
 
-% \iffalse
-%% For finding character transmission errors
-% \fi
+%^ For finding character transmission errors
 % \CharacterTable
 %  {Upper-case    \A\B\C\D\E\F\G\H\I\J\K\L\M\N\O\P\Q\R\S\T\U\V\W\X\Y\Z
 %   Lower-case    \a\b\c\d\e\f\g\h\i\j\k\l\m\n\o\p\q\r\s\t\u\v\w\x\y\z
@@ -84,12 +80,10 @@
 % \author{\linkToOrcidNameIcon{Michael G. Hansen}{https://orcid.org/0000-0001-5180-2511} \\ \texttt{mike at mghansen dot de}}
 % \maketitle
 % \iffalse
-%% maketitle switches the page style, we have to switch it back immediately
+%^ maketitle switches the page style, we have to switch it back immediately
 % \fi
 % \thispagestyle{fancy}
-% \iffalse
-%% index could be printed by adding \PrintIndex and running makeindex -o linkToId.ind -s gind.ist linkToId.idx
-% \fi
+%^ index could be printed by adding \PrintIndex and running makeindex -o linkToId.ind -s gind.ist linkToId.idx
 % \StopEventually{\PrintChanges}
 
 % This document corresponds to \textsf{linkToId}~\fileversion, dated~\filedate.
@@ -103,11 +97,31 @@
 % TODO: Should these packages be included here or included by the user?
 %       Now, the user can not pass options to these packages.
 
+\RequirePackage{kvoptions}
+\SetupKeyvalOptions{
+    family = Lnk,
+    prefix = Lnk@
+}
+% Can be defined if we should never try to detect luatex
+\DeclareBoolOption{nolua}
+\ProcessKeyvalOptions{Lnk}
+
 \RequirePackage{tikz}
 % \RequirePackage{xstring}
 \RequirePackage{stringstrings}
 \RequirePackage{hyperref}
+
+% Try to detect Lua if we are supposed to try
+\ifLnk@nolua
+\newcommand{\linkToIdNoLua}{2}
+\else
 \RequirePackage{ifluatex}
+\ifluatex
+\newcommand{\linkToIdNoLua}{1}
+\else
+\newcommand{\linkToIdNoLua}{2}
+\fi
+\fi
 
 %    \end{macrocode}
 
@@ -145,7 +159,8 @@
 %    \end{macrocode}
 
 %    \begin{macrocode}
-\ifluatex
+\ifodd\linkToIdNoLua
+
 \directlua{
 
 linkToId = {};
@@ -227,10 +242,11 @@ end
 % note: this command can not be used inside PDF-code, has to be used inside the tex part of \texorpdfstring
 \newcommand{\linkToIdCheckORCID}[1]{\ifodd\directlua{linkToId.checkORCIDWrapperBool("#1")} \PackageError{linkToId}{\directlua{linkToId.checkORCIDWrapperMessage("#1")}}{I can not help you more, please check that you did not mistype the ORCID. Also, the ORCID has to begin with https://orcid.org/}\fi}
 
-\else %ifluatex
+\else %\ifodd\linkToIdNoLua
+
 % note: this command can not be used inside PDF-code, has to be used inside the tex part of \texorpdfstring
 \newcommand{\linkToIdCheckORCID}[1]{\whereisword[q]{#1}{https://orcid.org/}\ifnum1=\theresult\else \PackageError{linkToId}{Invalid ORCID: Missing URL https://orcid.org in "#1"}{I can not help you more, please check that you did not mistype the ORCID. Also, the ORCID has to begin with https://orcid.org/}\fi}
-\fi %ifluatex
+\fi %\ifodd\linkToIdNoLua
 %    \end{macrocode}
 
 % \subsubsection{Usage}

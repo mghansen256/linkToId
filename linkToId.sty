@@ -21,25 +21,35 @@
 %% 
 \NeedsTeXFormat{LaTeX2e}[1994/06/01]
 \ProvidesPackage{linkToId}[2018/05/02 v0.2 Links to ID services such as ORCID]
-%% TODO: How to properly comment the documentation? Only the iffalse prevents
-%% these comments from being inserted into the document as regular text.
-%% Counts the number of backslashes in the file and compares them to the parameter.
-%% Parameter value 0 only outputs a warning. Checksum requires that the command
-%% StopEventually is used somewhere in the document.
-
-%% For finding character transmission errors
-
-
-%% maketitle switches the page style, we have to switch it back immediately
-%% index could be printed by adding \PrintIndex and running makeindex -o linkToId.ind -s gind.ist linkToId.idx
 
 
 
+
+
+
+
+\RequirePackage{kvoptions}
+\SetupKeyvalOptions{
+    family = Lnk,
+    prefix = Lnk@
+}
+\DeclareBoolOption{nolua}
+\ProcessKeyvalOptions{Lnk}
 
 \RequirePackage{tikz}
 \RequirePackage{stringstrings}
 \RequirePackage{hyperref}
+
+\ifLnk@nolua
+\newcommand{\linkToIdNoLua}{2}
+\else
 \RequirePackage{ifluatex}
+\ifluatex
+\newcommand{\linkToIdNoLua}{1}
+\else
+\newcommand{\linkToIdNoLua}{2}
+\fi
+\fi
 
 
 \newcommand{\linkToOrcidIcon}{\begin{tikzpicture}[x=1.6ex,y=1.6ex] % Found by experiment that 1.6ex is about the height of the currently used font\
@@ -58,7 +68,8 @@
 \newcommand{\linkToOrcidIconMarginRight}{\hspace{0.25em}\linkToOrcidIcon}
 \newcommand{\linkToOrcidIconMarginBoth}{\hspace{0.25em}\linkToOrcidIcon\hspace{0.25em}}
 
-\ifluatex
+\ifodd\linkToIdNoLua
+
 \directlua{
 
 linkToId = {};
@@ -134,9 +145,10 @@ end
 
 \newcommand{\linkToIdCheckORCID}[1]{\ifodd\directlua{linkToId.checkORCIDWrapperBool("#1")} \PackageError{linkToId}{\directlua{linkToId.checkORCIDWrapperMessage("#1")}}{I can not help you more, please check that you did not mistype the ORCID. Also, the ORCID has to begin with https://orcid.org/}\fi}
 
-\else %ifluatex
+\else %\ifodd\linkToIdNoLua
+
 \newcommand{\linkToIdCheckORCID}[1]{\whereisword[q]{#1}{https://orcid.org/}\ifnum1=\theresult\else \PackageError{linkToId}{Invalid ORCID: Missing URL https://orcid.org in "#1"}{I can not help you more, please check that you did not mistype the ORCID. Also, the ORCID has to begin with https://orcid.org/}\fi}
-\fi %ifluatex
+\fi %\ifodd\linkToIdNoLua
 
 
 

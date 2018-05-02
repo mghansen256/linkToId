@@ -12,6 +12,8 @@
 % LaTeX version 2005/12/01 or later.
 %
 \documentclass{article}
+% Provide the option nolua in order to avoid testing for luatex
+% using the ifluatex package, in case you do not have that package.
 \usepackage{linkToId}
 \usepackage{lastpage}
 \usepackage{fancyhdr}
@@ -49,7 +51,7 @@ Name, icon and id: \linkToOrcidNameIconId{Josiah Carberry}{https://orcid.org/000
 \\
 
 
-\ifluatex
+\ifodd\linkToIdNoLua
 Check luatex part:
 
 \newcommand{\checkValidORCID}[1]{Verify valid ORCID "#1": \ifodd\directlua{linkToId.checkORCIDWrapperBool("#1");} Checksum reported as false!\renewcommand{\testResult}{1}\else Passed!\fi}
@@ -67,7 +69,7 @@ Check luatex part:
 \ifodd\testResult \PackageError{linkToId}{Some tests failed}{Look at the generated file for details.}\else All tests passed!\fi
 
 \else
-Check of luatex part skipped, since no luatex is running!
+Check of luatex part skipped, since no luatex is running or because the option \texttt{nolua} was given to the \texttt{linkToId} package!
 Check that PDF version at least does not generate an error on valid ORCIDs. No output will be generated, but compilation will fail:
 \begin{itemize}
 \item https://orcid.org/0000-0002-1825-0097: \linkToIdCheckORCID{https://orcid.org/0000-0002-1825-0097}
