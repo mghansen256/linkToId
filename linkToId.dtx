@@ -13,7 +13,7 @@
 % LaTeX version 2005/12/01 or later.
 %
 %<package>\NeedsTeXFormat{LaTeX2e}[1994/06/01]
-%<package>\ProvidesPackage{linkToId}[2018/04/08 v0.1 Links to ID services such as ORCID]
+%<package>\ProvidesPackage{linkToId}[2018/05/02 v0.2 Links to ID services such as ORCID]
 %
 % \fi
 %
@@ -78,6 +78,7 @@
 %   Right brace   \}     Tilde         \~}
 
 % \changes{v0.1}{2018-04-08}{Initial version}
+% \changes{v0.2}{2018-05-02}{Add checksum tests for ORCID}
 
 % \title{The \textsf{linkToId} package}
 % \author{\linkToOrcidNameIcon{Michael G. Hansen}{https://orcid.org/0000-0001-5180-2511} \\ \texttt{mike at mghansen dot de}}
@@ -86,11 +87,10 @@
 %% maketitle switches the page style, we have to switch it back immediately
 % \fi
 % \thispagestyle{fancy}
-%
 % \iffalse
-%% TODO: Changes are not printed...
+%% index could be printed by adding \PrintIndex and running makeindex -o linkToId.ind -s gind.ist linkToId.idx
 % \fi
-% \StopEventually{\PrintChanges\PrintIndex}
+% \StopEventually{\PrintChanges}
 
 % This document corresponds to \textsf{linkToId}~\fileversion, dated~\filedate.
 
