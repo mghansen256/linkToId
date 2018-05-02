@@ -49,14 +49,18 @@
 %</driver>
 % \fi
 %
-%^ TODO: How to properly comment the documentation? Only the iffalse prevents
-%^ these comments from being inserted into the document as regular text.
-%^ Counts the number of backslashes in the file and compares them to the parameter.
-%^ Parameter value 0 only outputs a warning. Checksum requires that the command
-%  StopEventually is used somewhere in the document.
+\iffalse
+%% TODO: How to properly comment the documentation? Only the iffalse prevents
+%% these comments from being inserted into the document as regular text.
+%% Counts the number of backslashes in the file and compares them to the parameter.
+%% Parameter value 0 only outputs a warning. Checksum requires that the command
+%% StopEventually is used somewhere in the document.
+\fi
 % \CheckSum{0}
 
-%^ For finding character transmission errors
+\iffalse
+%% For finding character transmission errors
+\fi
 % \CharacterTable
 %  {Upper-case    \A\B\C\D\E\F\G\H\I\J\K\L\M\N\O\P\Q\R\S\T\U\V\W\X\Y\Z
 %   Lower-case    \a\b\c\d\e\f\g\h\i\j\k\l\m\n\o\p\q\r\s\t\u\v\w\x\y\z
@@ -80,10 +84,12 @@
 % \author{\linkToOrcidNameIcon{Michael G. Hansen}{https://orcid.org/0000-0001-5180-2511} \\ \texttt{mike at mghansen dot de}}
 % \maketitle
 % \iffalse
-%^ maketitle switches the page style, we have to switch it back immediately
+%% maketitle switches the page style, we have to switch it back immediately
 % \fi
 % \thispagestyle{fancy}
-%^ index could be printed by adding \PrintIndex and running makeindex -o linkToId.ind -s gind.ist linkToId.idx
+\iffalse
+%% index could be printed by adding \PrintIndex and running makeindex -o linkToId.ind -s gind.ist linkToId.idx
+\fi
 % \StopEventually{\PrintChanges}
 
 % This document corresponds to \textsf{linkToId}~\fileversion, dated~\filedate.

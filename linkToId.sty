@@ -21,9 +21,23 @@
 %% 
 \NeedsTeXFormat{LaTeX2e}[1994/06/01]
 \ProvidesPackage{linkToId}[2018/05/02 v0.2 Links to ID services such as ORCID]
+\iffalse
+%% TODO: How to properly comment the documentation? Only the iffalse prevents
+%% these comments from being inserted into the document as regular text.
+%% Counts the number of backslashes in the file and compares them to the parameter.
+%% Parameter value 0 only outputs a warning. Checksum requires that the command
+%% StopEventually is used somewhere in the document.
+\fi
+
+\iffalse
+%% For finding character transmission errors
+\fi
 
 
-
+%% maketitle switches the page style, we have to switch it back immediately
+\iffalse
+%% index could be printed by adding \PrintIndex and running makeindex -o linkToId.ind -s gind.ist linkToId.idx
+\fi
 
 
 
