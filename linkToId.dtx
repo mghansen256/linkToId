@@ -11,6 +11,10 @@
 % 
 % and version 1.3 or later is part of all distributions of
 % LaTeX version 2005/12/01 or later.
+
+% The ORCID icon was taken from ORCID's Trademark and ID display guidelines
+% page and is its use is subject to those conditions:
+% https://orcid.org/trademark-and-id-display-guidelines
 %
 %<package>\NeedsTeXFormat{LaTeX2e}[1994/06/01]
 %<package>\ProvidesPackage{linkToId}[2018/05/02 v0.2 Links to ID services such as ORCID]
@@ -136,9 +140,14 @@
 % \subsubsection{Implementation}
 %
 % Next we set up the icon rendering and the margins as requested by ORCID.
+% The ORCID icon was taken from ORCID's Trademark and ID display guidelines
+% page and is its use is subject to those conditions:
+% \href{https://orcid.org/trademark-and-id-display-guidelines}{https://orcid.org/trademark-and-id-display-guidelines}
 %
 %    \begin{macrocode}
 % The conversion of the ORCID icon from SVG to TIKZ is documented in the file preparation/orcid2tikz.tex
+% The ORCID icon was taken from ORCID's Trademark and ID display guidelines page and is its use is subject
+% to those conditions: https://orcid.org/trademark-and-id-display-guidelines
 \newcommand{\linkToOrcidIcon}{\begin{tikzpicture}[x=1.6ex,y=1.6ex] % Found by experiment that 1.6ex is about the height of the currently used font\
 % #A6CE39 = {166/256,206/256,57/256} = {0.651, 0.808, 0.224}\
 \definecolor{orcidgreen}{rgb}{0.651, 0.808, 0.224}\
