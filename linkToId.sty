@@ -19,6 +19,7 @@
 %% and version 1.3 or later is part of all distributions of
 %% LaTeX version 2005/12/01 or later.
 %% 
+
 \NeedsTeXFormat{LaTeX2e}[1994/06/01]
 \ProvidesPackage{linkToId}[2018/05/02 v0.2 Links to ID services such as ORCID]
 \iffalse
@@ -66,6 +67,10 @@
 \fi
 \fi
 
+\ifLinkToIdUseLua
+\RequirePackage{luacode}
+\fi
+
 
 \newcommand{\linkToOrcidIcon}{\begin{tikzpicture}[x=1.6ex,y=1.6ex] % Found by experiment that 1.6ex is about the height of the currently used font\
 \definecolor{orcidgreen}{rgb}{0.651, 0.808, 0.224}\
@@ -85,13 +90,14 @@
 
 \ifLinkToIdUseLua
 
-\directlua{
+\begin{luacode*}
 
 linkToId = {};
 
+-- Checks the checksum of an ORCID id string (without the URL)
 linkToId.checkORCIDCheckSum = function(orcidIdString)
-    %-- Method for verifying the checksum is described here:
-    %-- https://support.orcid.org/knowledgebase/articles/116780-structure-of-the-orcid-identifier
+    -- Method for verifying the checksum is described here:
+    -- https://support.orcid.org/knowledgebase/articles/116780-structure-of-the-orcid-identifier
     local o2=string.gsub(orcidIdString,"-","");
     local code0=string.byte("0");
     local total=0;
@@ -102,11 +108,12 @@ linkToId.checkORCIDCheckSum = function(orcidIdString)
         total = (total + myDigit)*2;
     end
 
-    %-- Using the percent sign as a modulo operator does not seem to work in luatex.
+    -- Using the percent sign as a modulo operator does not work in directlua.
+    -- But we keep that here even though we now use the luacode* environment.
     local remainder = math.fmod(total, 11);
     local checkResult=math.fmod((12-remainder), 11);
     local checkSumDigit = tostring(checkResult);
-    %-- replace 10 by X:
+    -- replace 10 by X:
     if checkResult==10 then
         checkSumDigit = "X";
     end
@@ -115,14 +122,15 @@ linkToId.checkORCIDCheckSum = function(orcidIdString)
     return isValid;
 end
 
+-- Check the structure and checksum of a full ORCID id containing the URL
 linkToId.checkORCID = function(orcidStringWithURL)
     local httpsString="https://orcid.org/";
     if not (string.sub(orcidStringWithURL,1,string.len(httpsString))==httpsString) then
         return false, "Does not start with https://orcid.org"
     end
 
-    %-- TODO: check for the xxxx-xxxx-xxxx-xxxX structure
-    %--       Delayed because string.find needs a percent sign
+    -- TODO: check for the xxxx-xxxx-xxxx-xxxX structure
+    --       Delayed because string.find needs a percent sign
     local idOnly = string.sub(orcidStringWithURL, string.len(httpsString)+1);
     if not (string.len(idOnly)==16+3) then
         return false, "Does not have a valid length behind URL (should be 19 digits)"
@@ -136,6 +144,8 @@ linkToId.checkORCID = function(orcidStringWithURL)
     return true, "Ok.";
 end
 
+-- wrapper for checkORCID which returns 1 in case of error.
+-- check for error can be done using latex's ifodd
 linkToId.checkORCIDWrapperBool = function(orcidString)
     local isValid, errorMessage = linkToId.checkORCID(orcidString);
 
@@ -146,6 +156,7 @@ linkToId.checkORCIDWrapperBool = function(orcidString)
     end
 end
 
+-- wrapper for checkORCID which returns the error message
 linkToId.checkORCIDWrapperMessage = function(orcidString)
     local isValid, errorMessage = linkToId.checkORCID(orcidString);
 
@@ -156,7 +167,7 @@ linkToId.checkORCIDWrapperMessage = function(orcidString)
     end
 end
 
-} % end directlua
+\end{luacode*}
 
 \newcommand{\linkToIdCheckORCID}[1]{\ifodd\directlua{linkToId.checkORCIDWrapperBool("#1")} \PackageError{linkToId}{\directlua{linkToId.checkORCIDWrapperMessage("#1")}}{I can not help you more, please check that you did not mistype the ORCID. Also, the ORCID has to begin with https://orcid.org/}\fi}
 
