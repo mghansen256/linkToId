@@ -25,8 +25,9 @@
     pdfauthor = {\linkToOrcidNameIcon{Michael G. Hansen}{https://orcid.org/0000-0001-5180-2511}}
 }
 
-% 0 means passed
-\newcommand{\testResult}{0}
+% counters for failed an passed tests
+\newcounter{testsFailed}
+\newcounter{testsPassed}
 
 \pagestyle{fancy}
 \fancyhf{}
@@ -55,8 +56,8 @@ Name, icon and id: \linkToOrcidNameIconId{Josiah Carberry}{https://orcid.org/000
 
 Check luatex part:
 
-\newcommand{\checkValidORCID}[1]{Verify valid ORCID "#1": \ifodd\directlua{linkToId.checkORCIDWrapperBool("#1");} Checksum reported as false!\renewcommand{\testResult}{1}\else Passed!\fi}
-\newcommand{\checkInvalidORCID}[2]{Detect invalid ORCID "#1" (#2): \ifodd\directlua{linkToId.checkORCIDWrapperBool("#1");} Ok, error detected.\else \renewcommand{\testResult}{1}Defect not found!\fi}
+\newcommand{\checkValidORCID}[1]{Verify valid ORCID "#1": \ifodd\directlua{linkToId.checkORCIDWrapperBool("#1");} Checksum reported as false!\stepcounter{testsFailed}\else Passed!\stepcounter{testsPassed}\fi}
+\newcommand{\checkInvalidORCID}[2]{Detect invalid ORCID "#1" (#2): \ifodd\directlua{linkToId.checkORCIDWrapperBool("#1");} Ok, error detected.\stepcounter{testsPassed}\else \stepcounter{testsFailed}Defect not found!\fi}
 
 \begin{itemize}
 \item \checkValidORCID{https://orcid.org/0000-0002-1825-0097}
@@ -67,15 +68,27 @@ Check luatex part:
 \item \checkInvalidORCID{https://orcid.org/0000-0002-1825-0098}{Invalid checksum}
 \end{itemize}
 
-\ifodd\testResult \PackageError{linkToId}{Some tests failed}{Look at the generated file for details.}\else All tests passed!\fi
-
 \else
 Check of luatex part skipped, since no luatex is running or because the option \texttt{nolua} was given to the \texttt{linkToId} package!
 Check that PDF version at least does not generate an error on valid ORCIDs. No output will be generated, but compilation will fail:
 \begin{itemize}
-\item https://orcid.org/0000-0002-1825-0097: \linkToIdCheckORCID{https://orcid.org/0000-0002-1825-0097}
-\item https://orcid.org/0000-0002-1694-233X: \linkToIdCheckORCID{https://orcid.org/0000-0002-1694-233X}
+% Here we only count passed tests. If these tests fail, compilation
+% will be aborted anyway.
+\item https://orcid.org/0000-0002-1825-0097: \linkToIdCheckORCID{https://orcid.org/0000-0002-1825-0097}\stepcounter{testsPassed}
+\item https://orcid.org/0000-0002-1694-233X: \linkToIdCheckORCID{https://orcid.org/0000-0002-1694-233X}\stepcounter{testsPassed}
 \end{itemize}
 \fi
+
+% calculate total number of tests
+\newcounter{testsTotal}
+\addtocounter{testsTotal}{\thetestsPassed}
+\addtocounter{testsTotal}{\thetestsFailed}
+
+% TODO: no space behind number of tests in PackageError. Using {}, \ or ~
+% did not work, those characters were printed verbatim. Put - on each side of
+% the numbers as a temporary spacer
+\if\thetestsFailed0 All \thetestsPassed{} tests passed!\else
+{\PackageError{linkToId}{-\thetestsFailed-
+out of -\thetestsTotal- tests failed}{Look at the generated PDF file for details.}\fi
 
 \end{document}
