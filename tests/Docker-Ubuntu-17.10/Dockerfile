@@ -12,8 +12,8 @@ RUN apt-get update \
 # install latex
 RUN eatmydata apt-get -y install texlive texlive-latex-extra texlive-luatex git lyx
 
-# check out source code
-RUN mkdir -pv /src && cd /src && git clone https://github.com/mghansen256/linkToId
+# check out a shallow copy of the source code
+RUN mkdir -pv /src && cd /src && git clone --depth 1 https://github.com/mghansen256/linkToId
 
 # re-create the style file and the documentation
 # TODO: use a different output directory?
