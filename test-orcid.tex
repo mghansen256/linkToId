@@ -51,7 +51,8 @@ Name, icon and id: \linkToOrcidNameIconId{Josiah Carberry}{https://orcid.org/000
 \\
 
 
-\ifodd\linkToIdNoLua
+\ifLinkToIdUseLua
+
 Check luatex part:
 
 \newcommand{\checkValidORCID}[1]{Verify valid ORCID "#1": \ifodd\directlua{linkToId.checkORCIDWrapperBool("#1");} Checksum reported as false!\renewcommand{\testResult}{1}\else Passed!\fi}

@@ -118,14 +118,15 @@
 \RequirePackage{hyperref}
 
 % Try to detect Lua if we are supposed to try
+\newif\ifLinkToIdUseLua
 \ifLnk@nolua
-\newcommand{\linkToIdNoLua}{2}
+\LinkToIdUseLuafalse
 \else
 \RequirePackage{ifluatex}
 \ifluatex
-\newcommand{\linkToIdNoLua}{1}
+\LinkToIdUseLuatrue
 \else
-\newcommand{\linkToIdNoLua}{2}
+\LinkToIdUseLuafalse
 \fi
 \fi
 
@@ -165,7 +166,7 @@
 %    \end{macrocode}
 
 %    \begin{macrocode}
-\ifodd\linkToIdNoLua
+\ifLinkToIdUseLua
 
 \directlua{
 

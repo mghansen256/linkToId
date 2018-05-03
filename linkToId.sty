@@ -54,14 +54,15 @@
 \RequirePackage{stringstrings}
 \RequirePackage{hyperref}
 
+\newif\ifLinkToIdUseLua
 \ifLnk@nolua
-\newcommand{\linkToIdNoLua}{2}
+\LinkToIdUseLuafalse
 \else
 \RequirePackage{ifluatex}
 \ifluatex
-\newcommand{\linkToIdNoLua}{1}
+\LinkToIdUseLuatrue
 \else
-\newcommand{\linkToIdNoLua}{2}
+\LinkToIdUseLuafalse
 \fi
 \fi
 
@@ -82,7 +83,7 @@
 \newcommand{\linkToOrcidIconMarginRight}{\hspace{0.25em}\linkToOrcidIcon}
 \newcommand{\linkToOrcidIconMarginBoth}{\hspace{0.25em}\linkToOrcidIcon\hspace{0.25em}}
 
-\ifodd\linkToIdNoLua
+\ifLinkToIdUseLua
 
 \directlua{
 
