@@ -13,7 +13,7 @@
 % LaTeX version 2005/12/01 or later.
 
 % The ORCID icon was taken from ORCID's Trademark and ID display guidelines
-% page and is its use is subject to those conditions:
+% page and its use is subject to those conditions:
 % https://orcid.org/trademark-and-id-display-guidelines
 %
 %<package>\NeedsTeXFormat{LaTeX2e}[1994/06/01]
@@ -162,12 +162,12 @@
 %
 % Next we set up the icon rendering and the margins as requested by ORCID.
 % The ORCID icon was taken from ORCID's Trademark and ID display guidelines
-% page and is its use is subject to those conditions:
+% page and its use is subject to those conditions:
 % \href{https://orcid.org/trademark-and-id-display-guidelines}{https://orcid.org/trademark-and-id-display-guidelines}
 %
 %    \begin{macrocode}
 % The conversion of the ORCID icon from SVG to TIKZ is documented in the file preparation/orcid2tikz.tex
-% The ORCID icon was taken from ORCID's Trademark and ID display guidelines page and is its use is subject
+% The ORCID icon was taken from ORCID's Trademark and ID display guidelines page and its use is subject
 % to those conditions: https://orcid.org/trademark-and-id-display-guidelines
 \newcommand{\linkToOrcidIcon}{\begin{tikzpicture}[x=1.6ex,y=1.6ex] % Found by experiment that 1.6ex is about the height of the currently used font\
 % #A6CE39 = {166/256,206/256,57/256} = {0.651, 0.808, 0.224}\
@@ -219,7 +219,7 @@ linkToId.checkORCIDCheckSum = function(orcidIdString)
     -- Using the percent sign as a modulo operator does not work in directlua.
     -- But we keep that here even though we now use the luacode* environment.
     local remainder = math.fmod(total, 11);
-    local checkResult=math.fmod((12-remainder), 11);
+    local checkResult = math.fmod((12-remainder), 11);
     local checkSumDigit = tostring(checkResult);
     -- replace 10 by X:
     if checkResult==10 then
@@ -289,17 +289,16 @@ end
 
 % \subsubsection{Usage}
 
-% The three macros defined below use the texorpdfstring macro internally the return something that hyperref
+% The three macros defined below use the \texttt{texorpdfstring} macro internally the return something that \texttt{hyperref}
 % can put into a PDF field. This is needed for LyX, for example, to be able to populate the PDF author fields
 % automatically, even if these macros are used in the author fields in LyX.
 
 % \begin{macro}{\linkToOrcidIconId}
 % Creates a link consisting of a name and an icon.
 % Usage: \\
-% |\linkToOrcidIconId| \marg{orcid-id}\\
+% |\linkToOrcidIconId|\marg{orcid-id}\\
 % Example: |\linkToOrcidIconId{https://orcid.org/0000-0002-1825-0097}|\\
 % Output: \linkToOrcidIconId{https://orcid.org/0000-0002-1825-0097}
-
 %    \begin{macrocode}
 % TODO: Add an option to remove the margin on the left hand side.
 \newcommand{\linkToOrcidIconId}[1]{\texorpdfstring{\linkToIdCheckORCID{#1}\href{#1}{\mbox{\linkToOrcidIconMarginBoth#1}}}{#1}}
@@ -309,10 +308,9 @@ end
 % \begin{macro}{\linkToOrcidNameIconId}
 % Creates a link consisting of a name, an icon and an ID.
 % Usage: \\
-% |\linkToOrcidNameIconId| \marg{name} \marg{orcid-id}\\
+% |\linkToOrcidNameIconId|\marg{name}\marg{orcid-id}\\
 % Example: |\linkToOrcidNameIconId{Josiah Carberry}{https://orcid.org/0000-0002-1825-0097}|\\
 % Output: \linkToOrcidNameIconId{Josiah Carberry}{https://orcid.org/0000-0002-1825-0097}
-
 %    \begin{macrocode}
 % TODO: Add an option to have links only on the icon and the id and not also on the name.
 \newcommand{\linkToOrcidNameIconId}[2]{\texorpdfstring{\linkToIdCheckORCID{#2}\href{#2}{\mbox{#1\linkToOrcidIconMarginBoth#2}}}{#1: #2}}
@@ -322,10 +320,9 @@ end
 % \begin{macro}{\linkToOrcidNameIcon}
 % Creates a link consisting of a name and an icon.
 % Usage: \\
-% |\linkToOrcidNameIcon| \marg{name} \marg{orcid-id}\\
+% |\linkToOrcidNameIcon|\marg{name}\marg{orcid-id}\\
 % Example: |\linkToOrcidNameIcon{Josiah Carberry}{https://orcid.org/0000-0002-1825-0097}|\\
 % Output: \linkToOrcidNameIcon{Josiah Carberry}{https://orcid.org/0000-0002-1825-0097}
-
 %    \begin{macrocode}
 % TODO: Add an option to have links only on the icon and not also on the name.
 % TODO: Add an option to remove the margin on the right hand side.

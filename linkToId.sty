@@ -114,7 +114,7 @@ linkToId.checkORCIDCheckSum = function(orcidIdString)
     -- Using the percent sign as a modulo operator does not work in directlua.
     -- But we keep that here even though we now use the luacode* environment.
     local remainder = math.fmod(total, 11);
-    local checkResult=math.fmod((12-remainder), 11);
+    local checkResult = math.fmod((12-remainder), 11);
     local checkSumDigit = tostring(checkResult);
     -- replace 10 by X:
     if checkResult==10 then
@@ -181,12 +181,9 @@ end
 
 
 
-
 \newcommand{\linkToOrcidIconId}[1]{\texorpdfstring{\linkToIdCheckORCID{#1}\href{#1}{\mbox{\linkToOrcidIconMarginBoth#1}}}{#1}}
 
-
 \newcommand{\linkToOrcidNameIconId}[2]{\texorpdfstring{\linkToIdCheckORCID{#2}\href{#2}{\mbox{#1\linkToOrcidIconMarginBoth#2}}}{#1: #2}}
-
 
 \newcommand{\linkToOrcidNameIcon}[2]{\texorpdfstring{\linkToIdCheckORCID{#2}\href{#2}{\mbox{#1\linkToOrcidIconMarginBoth}}\ifLnk@orcidIdInFootnote\linkToIdFootnoteNoNumber{\linkToOrcidNameIconId{#1}{#2}}\fi}{#1}}
 
