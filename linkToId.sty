@@ -49,6 +49,7 @@
     prefix = Lnk@
 }
 \DeclareBoolOption{nolua}
+\DeclareBoolOption{orcidIdInFootnote}
 \ProcessKeyvalOptions{Lnk}
 
 \RequirePackage{tikz}
@@ -71,6 +72,8 @@
 \RequirePackage{luacode}
 \fi
 
+
+\def\linkToIdFootnoteNoNumber{\xdef\@thefnmark{}\@footnotetext}
 
 \newcommand{\linkToOrcidIcon}{\begin{tikzpicture}[x=1.6ex,y=1.6ex] % Found by experiment that 1.6ex is about the height of the currently used font\
 \definecolor{orcidgreen}{rgb}{0.651, 0.808, 0.224}\
@@ -179,13 +182,13 @@ end
 
 
 
-\newcommand{\linkToOrcidNameIcon}[2]{\texorpdfstring{\linkToIdCheckORCID{#2}\href{#2}{\mbox{#1\linkToOrcidIconMarginBoth}}}{#1}}
-
-
 \newcommand{\linkToOrcidIconId}[1]{\texorpdfstring{\linkToIdCheckORCID{#1}\href{#1}{\mbox{\linkToOrcidIconMarginBoth#1}}}{#1}}
 
 
 \newcommand{\linkToOrcidNameIconId}[2]{\texorpdfstring{\linkToIdCheckORCID{#2}\href{#2}{\mbox{#1\linkToOrcidIconMarginBoth#2}}}{#1: #2}}
+
+
+\newcommand{\linkToOrcidNameIcon}[2]{\texorpdfstring{\linkToIdCheckORCID{#2}\href{#2}{\mbox{#1\linkToOrcidIconMarginBoth}}\ifLnk@orcidIdInFootnote\linkToIdFootnoteNoNumber{\linkToOrcidNameIconId{#1}{#2}}\fi}{#1}}
 
 \endinput
 %%

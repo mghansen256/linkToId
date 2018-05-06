@@ -114,6 +114,9 @@
 }
 % Can be defined if we should never try to detect luatex
 \DeclareBoolOption{nolua}
+% Can be defined to have footnote entries generated for linkToOrcidNameIcon
+% which also print the id.
+\DeclareBoolOption{orcidIdInFootnote}
 \ProcessKeyvalOptions{Lnk}
 
 \RequirePackage{tikz}
@@ -140,6 +143,19 @@
 \fi
 
 %    \end{macrocode}
+
+% \begin{macro}{\linkToIdFootnoteNoNumber}
+% Creates a footnote entry with no number.
+% Taken from here:\\
+% \href{https://en.wikibooks.org/wiki/LaTeX/Footnotes\_and\_Margin\_Notes}{https://en.wikibooks.org/wiki/LaTeX/Footnotes\_and\_Margin\_Notes}\\
+% Usage: \\
+% |\linkToIdFootnoteNoNumber|\marg{Footnote text.}\\
+% Example: |\linkToIdFootnoteNoNumber{Some footnote text.}|\\
+% Output: "Some footnote text." as a footnote without a number.
+%    \begin{macrocode}
+\def\linkToIdFootnoteNoNumber{\xdef\@thefnmark{}\@footnotetext}
+%    \end{macrocode}
+% \end{macro}
 
 % \subsection{ORCID specifics}
 % \subsubsection{Implementation}
@@ -277,20 +293,6 @@ end
 % can put into a PDF field. This is needed for LyX, for example, to be able to populate the PDF author fields
 % automatically, even if these macros are used in the author fields in LyX.
 
-% \begin{macro}{\linkToOrcidNameIcon}
-% Creates a link consisting of a name and an icon.
-% Usage: \\
-% |\linkToOrcidNameIcon| \marg{name} \marg{orcid-id}\\
-% Example: |\linkToOrcidNameIcon{Josiah Carberry}{https://orcid.org/0000-0002-1825-0097}|\\
-% Output: \linkToOrcidNameIcon{Josiah Carberry}{https://orcid.org/0000-0002-1825-0097}
-
-%    \begin{macrocode}
-% TODO: Add an option to have links only on the icon and not also on the name.
-% TODO: Add an option to remove the margin on the right hand side.
-\newcommand{\linkToOrcidNameIcon}[2]{\texorpdfstring{\linkToIdCheckORCID{#2}\href{#2}{\mbox{#1\linkToOrcidIconMarginBoth}}}{#1}}
-%    \end{macrocode}
-%\end{macro}
-
 % \begin{macro}{\linkToOrcidIconId}
 % Creates a link consisting of a name and an icon.
 % Usage: \\
@@ -314,6 +316,20 @@ end
 %    \begin{macrocode}
 % TODO: Add an option to have links only on the icon and the id and not also on the name.
 \newcommand{\linkToOrcidNameIconId}[2]{\texorpdfstring{\linkToIdCheckORCID{#2}\href{#2}{\mbox{#1\linkToOrcidIconMarginBoth#2}}}{#1: #2}}
+%    \end{macrocode}
+%\end{macro}
+
+% \begin{macro}{\linkToOrcidNameIcon}
+% Creates a link consisting of a name and an icon.
+% Usage: \\
+% |\linkToOrcidNameIcon| \marg{name} \marg{orcid-id}\\
+% Example: |\linkToOrcidNameIcon{Josiah Carberry}{https://orcid.org/0000-0002-1825-0097}|\\
+% Output: \linkToOrcidNameIcon{Josiah Carberry}{https://orcid.org/0000-0002-1825-0097}
+
+%    \begin{macrocode}
+% TODO: Add an option to have links only on the icon and not also on the name.
+% TODO: Add an option to remove the margin on the right hand side.
+\newcommand{\linkToOrcidNameIcon}[2]{\texorpdfstring{\linkToIdCheckORCID{#2}\href{#2}{\mbox{#1\linkToOrcidIconMarginBoth}}\ifLnk@orcidIdInFootnote\linkToIdFootnoteNoNumber{\linkToOrcidNameIconId{#1}{#2}}\fi}{#1}}
 %    \end{macrocode}
 %\end{macro}
 
