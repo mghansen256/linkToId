@@ -319,7 +319,14 @@ end
 % Output: \linkToOrcidNameIconId{Josiah Carberry}{https://orcid.org/0000-0002-1825-0097}
 %    \begin{macrocode}
 % TODO: Add an option to have links only on the icon and the id and not also on the name.
-\newcommand{\linkToOrcidNameIconId}[2]{\texorpdfstring{\linkToIdCheckORCID{#2}\href{#2}{\mbox{#1\linkToOrcidIconMarginBoth#2}}}{#1: #2}}
+\newcommand{\linkToOrcidNameIconId}[2]{%
+    %
+    \texorpdfstring{%
+        % Tex string
+        \linkToIdCheckORCID{#2}%
+        \href{#2}{\mbox{#1\linkToOrcidIconMarginBoth#2}}%
+    }{#1: #2}% \texorpdfstring
+}
 %    \end{macrocode}
 %\end{macro}
 
