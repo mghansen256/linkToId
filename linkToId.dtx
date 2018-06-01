@@ -308,7 +308,16 @@ end
     \IfBeginWith{#1}{https://orcid.org/}{%
         % Do nothing, string has correct prefix.
     }{%
-        \PackageError{linkToId}{Invalid ORCID: Missing URL https://orcid.org in "#1"}{I can not help you more, please check that you did not mistype the ORCID. The ORCID has to begin with https://orcid.org/}%
+        % Check for http instead of https for more precise warning
+        \IfBeginWith{#1}{http://orcid.org/}{%
+            \PackageError{linkToId}%
+            {Invalid ORCID: Link to ORCID starts with http:// instead of https:// in "#1"}%
+            {I can not help you more, please check that you did not mistype the ORCID. The ORCID has to begin with https://orcid.org/}%
+        }{%
+            \PackageError{linkToId}%
+                {Invalid ORCID: Missing URL https://orcid.org in "#1"}%
+                {I can not help you more, please check that you did not mistype the ORCID. The ORCID has to begin with https://orcid.org/}%
+        }%
     }%
 }%
 \fi %\ifodd\linkToIdNoLua
