@@ -120,8 +120,8 @@
 \ProcessKeyvalOptions{Lnk}
 
 \RequirePackage{tikz}
-% \RequirePackage{xstring}
-\RequirePackage{stringstrings}
+\RequirePackage{xstring}
+% \RequirePackage{stringstrings}
 \RequirePackage{hyperref}
 
 % Try to detect Lua if we are supposed to try
@@ -298,12 +298,18 @@ end
 % note: this command can not be used inside PDF-code, has to be used inside the tex part of \texorpdfstring
 \newcommand{\linkToIdCheckORCID}[1]{%
     %
-    \whereisword[q]{#1}{https://orcid.org/}%
-    \ifnum1=\theresult%
-        % do nothing if position is correct
-    \else%
-        \PackageError{linkToId}{Invalid ORCID: Missing URL https://orcid.org in "#1"}{I can not help you more, please check that you did not mistype the ORCID. Also, the ORCID has to begin with https://orcid.org/}%
-    \fi%
+    % Previously used whereisword from stringstring here, but that
+    % printed a space somehow. Could not easily remove that output
+    % without loosing the value in \theresult.
+    % Suppress output of whereisword using a box with 0 width.
+    % Even in quiet mode, it puts a space, reason unknown.
+    %\setbox0\vbox\bgroup\whereisword[q]{#1}{https://orcid.org/}\egroup{}
+    %
+    \IfBeginWith{#1}{https://orcid.org/}{%
+        % Do nothing, string has correct prefix.
+    }{%
+        \PackageError{linkToId}{Invalid ORCID: Missing URL https://orcid.org in "#1"}{I can not help you more, please check that you did not mistype the ORCID. The ORCID has to begin with https://orcid.org/}%
+    }%
 }%
 \fi %\ifodd\linkToIdNoLua
 %    \end{macrocode}
