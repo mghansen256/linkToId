@@ -307,7 +307,14 @@ end
 % Output: \linkToOrcidIconId{https://orcid.org/0000-0002-1825-0097}
 %    \begin{macrocode}
 % TODO: Add an option to remove the margin on the left hand side.
-\newcommand{\linkToOrcidIconId}[1]{\texorpdfstring{\linkToIdCheckORCID{#1}\href{#1}{\mbox{\linkToOrcidIconMarginBoth#1}}}{#1}}
+\newcommand{\linkToOrcidIconId}[1]{%
+    %
+    \texorpdfstring{%
+        % Tex string
+        \linkToIdCheckORCID{#1}%
+        \href{#1}{\mbox{\linkToOrcidIconMarginBoth#1}}%
+    }{#1}% \texorpdfstring
+}
 %    \end{macrocode}
 %\end{macro}
 
