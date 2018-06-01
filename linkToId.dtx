@@ -332,7 +332,18 @@ end
 %    \begin{macrocode}
 % TODO: Add an option to have links only on the icon and not also on the name.
 % TODO: Add an option to remove the margin on the right hand side.
-\newcommand{\linkToOrcidNameIcon}[2]{\texorpdfstring{\linkToIdCheckORCID{#2}\href{#2}{\mbox{#1\linkToOrcidIconMarginBoth}}\ifLnk@orcidIdInFootnote\linkToIdFootnoteNoNumber{\linkToOrcidNameIconId{#1}{#2}}\fi}{#1}}
+\newcommand{\linkToOrcidNameIcon}[2]{%
+    %
+    \texorpdfstring{%
+        % Tex string
+        \linkToIdCheckORCID{#2}%
+        \href{#2}{\mbox{#1\linkToOrcidIconMarginBoth}}%
+        %
+        \ifLnk@orcidIdInFootnote%
+            \linkToIdFootnoteNoNumber{\linkToOrcidNameIconId{#1}{#2}}%
+        \fi%
+    }{#1}% \texorpdfstring
+}
 %    \end{macrocode}
 %\end{macro}
 
