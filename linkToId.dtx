@@ -284,7 +284,14 @@ end
 \end{luacode*}
 
 % note: this command can not be used inside PDF-code, has to be used inside the tex part of \texorpdfstring
-\newcommand{\linkToIdCheckORCID}[1]{\ifodd\directlua{linkToId.checkORCIDWrapperBool("#1")} \PackageError{linkToId}{\directlua{linkToId.checkORCIDWrapperMessage("#1")}}{I can not help you more, please check that you did not mistype the ORCID. Also, the ORCID has to begin with https://orcid.org/}\fi}
+\newcommand{\linkToIdCheckORCID}[1]{%
+    %
+    \ifodd\directlua{linkToId.checkORCIDWrapperBool("#1")}%
+        \PackageError{linkToId}%
+        {\directlua{linkToId.checkORCIDWrapperMessage("#1")}}%
+        {I can not help you more, please check that you did not mistype the ORCID. Also, the ORCID has to begin with https://orcid.org/}%
+    \fi%
+}
 
 \else %\ifodd\linkToIdNoLua
 
