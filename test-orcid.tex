@@ -22,7 +22,7 @@
 % Use \linkToOrcidNameIcon to simulate what lyx does when using it in the author field
 \hypersetup{
     pdftitle = {Test ORCID part of package linkToId},
-    pdfauthor = {\linkToOrcidNameIcon{Michael G. Hansen}{https://orcid.org/0000-0001-5180-2511}}
+    pdfauthor = {\linkToOrcidNameIcon[addFootnote=false]{Michael G. Hansen}{https://orcid.org/0000-0001-5180-2511}}
 }
 
 % counters for failed an passed tests
@@ -39,15 +39,16 @@
 \fancyfoot[RE,LO]{Test ORCID part of \textsf{linkToId}}
 
 \begin{document}
+\linkToIdFootnoteNoNumber{\linkToOrcidNameIconId{Michael G. Hansen}{https://orcid.org/0000-0001-5180-2511}}
 \title{Test ORCID part of package \textsf{linkToId}}
-\author{\linkToOrcidNameIcon{Michael G. Hansen}{https://orcid.org/0000-0001-5180-2511} \\ \texttt{mike at mghansen dot de}}
+\author{\linkToOrcidNameIcon[addFootnote=false]{Michael G. Hansen}{https://orcid.org/0000-0001-5180-2511} \\ \texttt{mike at mghansen dot de}}
 \maketitle
 \thispagestyle{fancy}
 
 \section{Examples}
 
 \begin{itemize}
-\item Name with an icon behind it: \linkToOrcidNameIcon{Josiah Carberry}{https://orcid.org/0000-0002-1825-0097}
+\item Name with an icon behind it: \linkToOrcidNameIcon[addFootnote=auto]{Josiah Carberry}{https://orcid.org/0000-0002-1825-0097}
 
 \item Icon with id behind it: \linkToOrcidIconId{https://orcid.org/0000-0002-1825-0097}
 

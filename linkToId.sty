@@ -53,8 +53,9 @@
 \ProcessKeyvalOptions{Lnk}
 
 \RequirePackage{tikz}
-\RequirePackage{stringstrings}
+\RequirePackage{xstring}
 \RequirePackage{hyperref}
+\RequirePackage{xkeyval}
 
 \newif\ifLinkToIdUseLua
 \ifLnk@nolua
@@ -178,20 +179,90 @@ end
 
 \end{luacode*}
 
-\newcommand{\linkToIdCheckORCID}[1]{\ifodd\directlua{linkToId.checkORCIDWrapperBool("#1")} \PackageError{linkToId}{\directlua{linkToId.checkORCIDWrapperMessage("#1")}}{I can not help you more, please check that you did not mistype the ORCID. Also, the ORCID has to begin with https://orcid.org/}\fi}
+\newcommand{\linkToIdCheckORCID}[1]{%
+    %
+    \ifodd\directlua{linkToId.checkORCIDWrapperBool("#1")}%
+        \PackageError{linkToId}%
+        {\directlua{linkToId.checkORCIDWrapperMessage("#1")}}%
+        {I can not help you more, please check that you did not mistype the ORCID. The ORCID has to begin with https://orcid.org/}%
+    \fi%
+}
 
 \else %\ifodd\linkToIdNoLua
 
-\newcommand{\linkToIdCheckORCID}[1]{\whereisword[q]{#1}{https://orcid.org/}\ifnum1=\theresult\else \PackageError{linkToId}{Invalid ORCID: Missing URL https://orcid.org in "#1"}{I can not help you more, please check that you did not mistype the ORCID. Also, the ORCID has to begin with https://orcid.org/}\fi}
+\newcommand{\linkToIdCheckORCID}[1]{%
+    %
+    % Previously used whereisword from stringstring here, but that
+    % printed a space somehow. Could not easily remove that output
+    % without loosing the value in \theresult.
+    % Suppress output of whereisword using a box with 0 width.
+    % Even in quiet mode, it puts a space, reason unknown.
+    %\setbox0\vbox\bgroup\whereisword[q]{#1}{https://orcid.org/}\egroup{}
+    %
+    \IfBeginWith{#1}{https://orcid.org/}{%
+        % Do nothing, string has correct prefix.
+    }{%
+        % Check for http instead of https for more precise warning
+        \IfBeginWith{#1}{http://orcid.org/}{%
+            \PackageError{linkToId}%
+            {Invalid ORCID: Link to ORCID starts with http:// instead of https:// in "#1"}%
+            {I can not help you more, please check that you did not mistype the ORCID. The ORCID has to begin with https://orcid.org/}%
+        }{%
+            \PackageError{linkToId}%
+                {Invalid ORCID: Missing URL https://orcid.org in "#1"}%
+                {I can not help you more, please check that you did not mistype the ORCID. The ORCID has to begin with https://orcid.org/}%
+        }%
+    }%
+}%
 \fi %\ifodd\linkToIdNoLua
 
 
 
-\newcommand{\linkToOrcidIconId}[1]{\texorpdfstring{\linkToIdCheckORCID{#1}\href{#1}{\mbox{\linkToOrcidIconMarginBoth#1}}}{#1}}
+\newcommand{\linkToOrcidIconId}[1]{%
+    %
+    \texorpdfstring{%
+        % Tex string
+        \linkToIdCheckORCID{#1}%
+        \href{#1}{\mbox{\linkToOrcidIconMarginBoth#1}}%
+    }{#1}% \texorpdfstring
+}
 
-\newcommand{\linkToOrcidNameIconId}[2]{\texorpdfstring{\linkToIdCheckORCID{#2}\href{#2}{\mbox{#1\linkToOrcidIconMarginBoth#2}}}{#1: #2}}
+\newcommand{\linkToOrcidNameIconId}[2]{%
+    %
+    \texorpdfstring{%
+        % Tex string
+        \linkToIdCheckORCID{#2}%
+        \href{#2}{\mbox{#1\linkToOrcidIconMarginBoth#2}}%
+    }{#1: #2}% \texorpdfstring
+}
 
-\newcommand{\linkToOrcidNameIcon}[2]{\texorpdfstring{\linkToIdCheckORCID{#2}\href{#2}{\mbox{#1\linkToOrcidIconMarginBoth}}\ifLnk@orcidIdInFootnote\linkToIdFootnoteNoNumber{\linkToOrcidNameIconId{#1}{#2}}\fi}{#1}}
+\define@key{linkToOrcidNameIcon}{addFootnote}{\def\linkToOrcidNameIcon@addFootnote{#1}}
+\setkeys{linkToOrcidNameIcon}{addFootnote=auto}
+\newcommand{\linkToOrcidNameIcon}[3][]{%
+    %
+    \begingroup%
+        \setkeys{linkToOrcidNameIcon}{#1}%
+        \IfStrEq{\linkToOrcidNameIcon@addFootnote}{auto}%
+        {%
+            \ifLnk@orcidIdInFootnote%
+                \renewcommand{\linkToOrcidNameIcon@addFootnote}{true}%
+            \else%
+                \renewcommand{\linkToOrcidNameIcon@addFootnote}{false}%
+            \fi%
+        }{}%
+        %
+        \texorpdfstring{%
+            % Tex string
+            \linkToIdCheckORCID{#3}%
+            \href{#3}{\mbox{#2\linkToOrcidIconMarginBoth}}%
+            %
+            % TODO: Check whether this statement can also be outside of texorpdfstring
+            \IfStrEq{\linkToOrcidNameIcon@addFootnote}{true}{
+                \linkToIdFootnoteNoNumber{\linkToOrcidNameIconId{#2}{#3}}%
+            }{}%
+        }{#3}% \texorpdfstring
+    \endgroup%
+}
 
 \endinput
 %%

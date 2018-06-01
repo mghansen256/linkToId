@@ -84,8 +84,9 @@
 % \changes{v0.1}{2018-04-08}{Initial version}
 % \changes{v0.2}{2018-05-18}{Add checksum tests for ORCID and options for footnotes.}
 
+% \linkToIdFootnoteNoNumber{\linkToOrcidNameIconId{Michael G. Hansen}{https://orcid.org/0000-0001-5180-2511}}
 % \title{The \textsf{linkToId} package}
-% \author{\linkToOrcidNameIcon{Michael G. Hansen}{https://orcid.org/0000-0001-5180-2511} \\ \texttt{mike at mghansen dot de}}
+% \author{\linkToOrcidNameIcon[addFootnote=false]{Michael G. Hansen}{https://orcid.org/0000-0001-5180-2511} \\ \texttt{mike at mghansen dot de}}
 % \maketitle
 % \iffalse
 %% maketitle switches the page style, we have to switch it back immediately
@@ -123,6 +124,7 @@
 \RequirePackage{xstring}
 % \RequirePackage{stringstrings}
 \RequirePackage{hyperref}
+\RequirePackage{xkeyval}
 
 % Try to detect Lua if we are supposed to try
 \newif\ifLinkToIdUseLua
@@ -368,25 +370,45 @@ end
 %\end{macro}
 
 % \begin{macro}{\linkToOrcidNameIcon}
+% \changes{v0.3}{2018-06-01}{Added an option to control generation of footnotes.}
 % Creates a link consisting of a name and an icon.
 % Usage: \\
-% |\linkToOrcidNameIcon|\marg{name}\marg{orcid-id}\\
-% Example: |\linkToOrcidNameIcon{Josiah Carberry}{https://orcid.org/0000-0002-1825-0097}|\\
-% Output: \linkToOrcidNameIcon{Josiah Carberry}{https://orcid.org/0000-0002-1825-0097}
+% |\linkToOrcidNameIcon|\oarg{options}\marg{name}\marg{orcid-id}\\
+% Valid values for options:
+% \begin{itemize}
+% \item addFootnote: Can be true, false or auto. In case of auto, the orcidIdInFootnote option given to the package is used.
+% \end{itemize}
+% Example: |\linkToOrcidNameIcon[addFootnote=false]{Josiah Carberry}{https://orcid.org/0000-0002-1825-0097}|\\
+% Output: \linkToOrcidNameIcon[addFootnote=false]{Josiah Carberry}{https://orcid.org/0000-0002-1825-0097}
 %    \begin{macrocode}
 % TODO: Add an option to have links only on the icon and not also on the name.
 % TODO: Add an option to remove the margin on the right hand side.
-\newcommand{\linkToOrcidNameIcon}[2]{%
+\define@key{linkToOrcidNameIcon}{addFootnote}{\def\linkToOrcidNameIcon@addFootnote{#1}}
+\setkeys{linkToOrcidNameIcon}{addFootnote=auto}
+\newcommand{\linkToOrcidNameIcon}[3][]{%
     %
-    \texorpdfstring{%
-        % Tex string
-        \linkToIdCheckORCID{#2}%
-        \href{#2}{\mbox{#1\linkToOrcidIconMarginBoth}}%
+    \begingroup%
+        \setkeys{linkToOrcidNameIcon}{#1}%
+        \IfStrEq{\linkToOrcidNameIcon@addFootnote}{auto}%
+        {%
+            \ifLnk@orcidIdInFootnote%
+                \renewcommand{\linkToOrcidNameIcon@addFootnote}{true}%
+            \else%
+                \renewcommand{\linkToOrcidNameIcon@addFootnote}{false}%
+            \fi%
+        }{}%
         %
-        \ifLnk@orcidIdInFootnote%
-            \linkToIdFootnoteNoNumber{\linkToOrcidNameIconId{#1}{#2}}%
-        \fi%
-    }{#1}% \texorpdfstring
+        \texorpdfstring{%
+            % Tex string
+            \linkToIdCheckORCID{#3}%
+            \href{#3}{\mbox{#2\linkToOrcidIconMarginBoth}}%
+            %
+            % TODO: Check whether this statement can also be outside of texorpdfstring
+            \IfStrEq{\linkToOrcidNameIcon@addFootnote}{true}{
+                \linkToIdFootnoteNoNumber{\linkToOrcidNameIconId{#2}{#3}}%
+            }{}%
+        }{#3}% \texorpdfstring
+    \endgroup%
 }
 %    \end{macrocode}
 %\end{macro}
