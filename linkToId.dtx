@@ -128,20 +128,22 @@
 
 % Try to detect Lua if we are supposed to try
 \newif\ifLinkToIdUseLua
+% Do not use Lua if option nolua was given to package:
 \ifLnk@nolua
-\LinkToIdUseLuafalse
+    \LinkToIdUseLuafalse
 \else
-\RequirePackage{ifluatex}
-\ifluatex
-\LinkToIdUseLuatrue
-\else
-\LinkToIdUseLuafalse
-\fi
+    % Search for Lua and decide based on result.
+    \RequirePackage{ifluatex}
+    \ifluatex
+        \LinkToIdUseLuatrue
+    \else
+        \LinkToIdUseLuafalse
+    \fi
 \fi
 
 % if we are using lua, use the luacode environment
 \ifLinkToIdUseLua
-\RequirePackage{luacode}
+    \RequirePackage{luacode}
 \fi
 
 %    \end{macrocode}
