@@ -289,7 +289,15 @@ end
 \else %\ifodd\linkToIdNoLua
 
 % note: this command can not be used inside PDF-code, has to be used inside the tex part of \texorpdfstring
-\newcommand{\linkToIdCheckORCID}[1]{\whereisword[q]{#1}{https://orcid.org/}\ifnum1=\theresult\else \PackageError{linkToId}{Invalid ORCID: Missing URL https://orcid.org in "#1"}{I can not help you more, please check that you did not mistype the ORCID. Also, the ORCID has to begin with https://orcid.org/}\fi}
+\newcommand{\linkToIdCheckORCID}[1]{%
+    %
+    \whereisword[q]{#1}{https://orcid.org/}%
+    \ifnum1=\theresult%
+        % do nothing if position is correct
+    \else%
+        \PackageError{linkToId}{Invalid ORCID: Missing URL https://orcid.org in "#1"}{I can not help you more, please check that you did not mistype the ORCID. Also, the ORCID has to begin with https://orcid.org/}%
+    \fi%
+}%
 \fi %\ifodd\linkToIdNoLua
 %    \end{macrocode}
 
