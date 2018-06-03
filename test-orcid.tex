@@ -14,7 +14,7 @@
 \documentclass{article}
 % Provide the option nolua in order to avoid testing for luatex
 % using the ifluatex package, in case you do not have that package.
-\usepackage[orcidIdInFootnote]{linkToId}
+\usepackage[orcidIdInFootnote,orcidAddToList]{linkToId}
 \usepackage{lastpage}
 \usepackage{fancyhdr}
 \usepackage[]{hyperref}
@@ -22,7 +22,7 @@
 % Use \linkToOrcidNameIcon to simulate what lyx does when using it in the author field
 \hypersetup{
     pdftitle = {Test ORCID part of package linkToId},
-    pdfauthor = {\linkToOrcidNameIcon[addFootnote=false]{Michael G. Hansen}{https://orcid.org/0000-0001-5180-2511}}
+    pdfauthor = {\linkToOrcidNameIcon[addFootnote=false,addToList=false]{Michael G. Hansen}{https://orcid.org/0000-0001-5180-2511}}
 }
 
 % counters for failed an passed tests
@@ -98,5 +98,9 @@ Check that PDF version at least does not generate an error on valid ORCIDs. No o
 \if\thetestsFailed0 All \thetestsPassed{} tests passed!\else
 {\PackageError{linkToId}{-\thetestsFailed-
 out of -\thetestsTotal- tests failed}{Look at the generated PDF file for details.}\fi
+
+\section{List of ORCIDs}
+
+\linkToOrcidRenderList
 
 \end{document}
