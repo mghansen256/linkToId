@@ -59,6 +59,8 @@
 
 Sample ORCIDs were taken from this document: \href{https://support.orcid.org/knowledgebase/articles/116780-structure-of-the-orcid-identifier}{Structure of the ORCID Identifier}.
 
+Test that an entry is not listed twice in the list of ORCIDs (\ref{listOfOrcids}): \linkToOrcidNameIcon[addFootnote=false,addToList=true]{Josiah Carberry}{https://orcid.org/0000-0002-1825-0097} \linkToOrcidNameIcon[addFootnote=false,addToList=true]{Josiah Carberry}{https://orcid.org/0000-0002-1825-0097}
+
 \ifLinkToIdUseLua
 
 Check luatex part:
@@ -99,7 +101,7 @@ Check that PDF version at least does not generate an error on valid ORCIDs. No o
 {\PackageError{linkToId}{-\thetestsFailed-
 out of -\thetestsTotal- tests failed}{Look at the generated PDF file for details.}\fi
 
-\section{List of ORCIDs}
+\section{List of ORCIDs}\label{listOfOrcids}
 
 \linkToOrcidRenderList
 

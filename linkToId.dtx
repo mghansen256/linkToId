@@ -158,12 +158,33 @@
 \newif{\ifLinkToIdOrcidListHasEntries}
 \LinkToIdOrcidListHasEntriesfalse
 \newcommand{\linkToOrcidAddToList}[2]{%
-    \ifLinkToIdOrcidListHasEntries
-        \expandafter\gdef\expandafter\linkToIdOrcidList\expandafter{\linkToIdOrcidList, ({#1},{#2})}%
-    \else
+    \bgroup%
+    % Note: Do not define an if inside an if,
+    %       yields an error message.
+    \newif{\ifEntryExists}%
+    \ifLinkToIdOrcidListHasEntries%
+        \EntryExistsfalse%
+        \xintForpair ##1##2 in \linkToIdOrcidList \do {%
+            \IfStrEq{##2}{#2}{%
+                % entry already in list
+                \EntryExiststrue%
+                % One could break the loop now, but there
+                % were warnings in the documentation that
+                % that would not be expandable. For now,
+                % simply continue iterating
+            }{}%
+        }%
+        \ifEntryExists%
+            % entry exists, do nothin
+        \else%
+            % entry not found, add it to the list
+            \expandafter\gdef\expandafter\linkToIdOrcidList\expandafter{\linkToIdOrcidList, ({#1},{#2})}%
+        \fi%        
+    \else%
         \expandafter\gdef\expandafter\linkToIdOrcidList\expandafter{({#1},{#2})}%
-        \global\LinkToIdOrcidListHasEntriestrue
-    \fi
+        \global\LinkToIdOrcidListHasEntriestrue%
+    \fi%
+    \egroup%
 }
 % Redefine for custom beginning/end of lists
 \newcommand{\linkToOrcidRenderListBegin}{}
