@@ -128,6 +128,7 @@
 % \RequirePackage{stringstrings}
 \RequirePackage{hyperref}
 \RequirePackage{xkeyval}
+\RequirePackage{xinttools}
 
 % Try to detect Lua if we are supposed to try
 \newif\ifLinkToIdUseLua
@@ -150,11 +151,36 @@
 \fi
 
 % Here we store the ORCIDs which are supposed to be listed with name and id in a separate section
+% fields: display name, ORCID
 \newcommand{\linkToIdOrcidList}{}
+% we use this bool to store whether the list has entries
+% TODO: try to find a command to test whether the list is empty.
+\newif{\ifLinkToIdOrcidListHasEntries}
+\LinkToIdOrcidListHasEntriesfalse
 \newcommand{\linkToOrcidAddToList}[2]{%
-    \expandafter\gdef\expandafter\linkToIdOrcidList\expandafter{\linkToIdOrcidList \linkToOrcidNameIconId{#1}{#2}\\}%
+    \ifLinkToIdOrcidListHasEntries
+        \expandafter\gdef\expandafter\linkToIdOrcidList\expandafter{\linkToIdOrcidList, ({#1},{#2})}%
+    \else
+        \expandafter\gdef\expandafter\linkToIdOrcidList\expandafter{({#1},{#2})}%
+        \global\LinkToIdOrcidListHasEntriestrue
+    \fi
 }
-\newcommand{\linkToOrcidRenderList}{\linkToIdOrcidList}
+% Redefine for custom beginning/end of lists
+\newcommand{\linkToOrcidRenderListBegin}{}
+\newcommand{\linkToOrcidRenderListEnd}{}
+% Renders a single list item. Can be redefined to change the rendering format
+\newcommand{\linkToOrcidRenderListItem}[2]{%
+    \linkToOrcidNameIconId{#1}{#2}\\
+}
+\newcommand{\linkToOrcidRenderList}{%
+    \ifLinkToIdOrcidListHasEntries
+        \linkToOrcidRenderListBegin%
+        \xintForpair ##1##2 in \linkToIdOrcidList \do {%
+            \linkToOrcidRenderListItem{##1}{##2}%
+        }%
+        \linkToOrcidRenderListEnd%
+    \fi
+}
 %    \end{macrocode}
 
 % \begin{macro}{\linkToIdFootnoteNoNumber}
