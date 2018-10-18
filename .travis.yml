@@ -9,4 +9,4 @@ services:
 
 # TODO: also build the document without docker
 script:
-    - docker build -t mghansen256/linktoid tests/Docker-Ubuntu-17.10
+    - docker build -t mghansen256/linktoid -f tests/Docker-Ubuntu-17.10/Dockerfile .

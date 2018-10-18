@@ -12,8 +12,11 @@ RUN apt-get update \
 # install latex
 RUN eatmydata apt-get -y install texlive texlive-latex-extra texlive-luatex git lyx
 
-# check out a shallow copy of the source code
-RUN mkdir -pv /src && cd /src && git clone --depth 1 https://github.com/mghansen256/linkToId
+# Import the repository into the image
+# Requires start of the docker command from the root of the repository!
+# docker build -t qhanoi -f docker/ubuntu17.10/Dockerfile .
+RUN mkdir -pv /src/linkToId
+ADD . /src/linkToId
 
 # re-create the style file and the documentation
 # TODO: use a different output directory?
